@@ -1,19 +1,23 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser'
+import routes from "./routes/routes";
+//const cors = require('cors')
 
-const app = express();
-//const address: string = "0.0.0.0:3000"
+const app: express.Application = express();
 const port = 3000;
 
-app.use(bodyParser.json())
+// review the corsOptions for changes
+/*
+const corsOptions = {
+    origin: 'http://example.com',
+    optionsSuccessStatus: 200
+}
 
-app.get('/', function (req: Request, res: Response) {
-    res.send('Testing')
-})
+ */
 
-app.get('/hello', function (req: Request, res: Response) {
-    res.send('Testing hello path, it does not refresheee and see again')
-})
+//app.use(cors(corsOptions));
+app.use(bodyParser.json());
+app.use(routes);
 
 app.listen(port, () => {
     console.log(`server started at http://localhost:${port}`);
