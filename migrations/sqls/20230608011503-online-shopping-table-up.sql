@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS products (
      price FLOAT(10) NOT NULL,
      category VARCHAR(40) NOT NULL,
      description TEXT NOT NULL,
-     image VARCHAR(5) NOT NULL,
+     image VARCHAR(100) NOT NULL,
      in_stock BOOLEAN NOT NULL,
      created_at TIMESTAMP,
      modified_at TIMESTAMP

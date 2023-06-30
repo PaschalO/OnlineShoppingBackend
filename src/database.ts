@@ -15,8 +15,6 @@ if (ENV === 'test') {
     });
 }
 
-console.log(ENV)
-
 if (ENV === 'dev') {
     Client = new Pool( {
         database: POSTGRES_DB,
@@ -24,10 +22,5 @@ if (ENV === 'dev') {
         password: POSTGRES_PASSWORD
     });
 }
-
-console.log(ENV === 'dev')
-console.log(POSTGRES_USER)
-console.log(POSTGRES_DB)
-console.log('I am from the database.ts')
-
+console.log(ENV === 'test')
 export default Client;

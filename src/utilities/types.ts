@@ -13,6 +13,7 @@ export type Product = {
     price: number,
     description: string,
     image: string,
+    in_stock: boolean,
     category: string
 }
 
@@ -21,7 +22,7 @@ export type Order = {
     user_id: number,
     product_id: number,
     order_quantity: number,
-    order_status: string
+    order_status: string,
 }
 
 export type Stocks = {

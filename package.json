@@ -6,19 +6,22 @@
   "scripts": {
     "start": "ts-node-dev src/index.js",
     "test": "set ENV=test db-migrate up --config database.json -e test && jasmine-ts && db-migrate db:drop test",
+    "test2": "set ENV=test && db-migrate -e test up && npm run build && jasmine && db-migrate -e test reset",
     "tsc": "tsc",
     "db": "nodemon src/database.ts",
     "serve": "nodemon src/index.ts",
     "migrate": "db-migrate up && db-migrate up",
     "build": "npx tsc",
-    "watch": "tsc-watch --esModuleInterop src/index.ts --outDir ./build --onSuccess 'node ./build/index.js'"
+    "watch": "tsc-watch --esModuleInterop src/index.ts --outDir ./build --onSuccess 'node ./build/index.js'",
+    "jasmine": "jasmine",
+    "testJB": "npm run build && npm run jasmine"
   },
   "author": "Udacity",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "db-migrate": "^0.1.3",
+    "db-migrate": "^0.11.13",
     "db-migrate-pg": "^1.3.0",
     "express": "^4.17.1",
     "pg": "^8.5.1"

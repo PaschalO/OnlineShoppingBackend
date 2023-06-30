@@ -35,8 +35,8 @@ export class UserStore {
     async createUser(user: User): Promise<User | null> {
         try {
             const connection = await Client.connect();
-            const sql = 'INSERT INTO users (firstname, lastname, email, password, role, created_at, modified_at) VALUES($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *';
-            const result = await connection.query(sql, [user.firstname, user.lastname, user.email, user.password, user.role]);
+            const sql = 'INSERT INTO users (id, firstname, lastname, email, password, role, created_at, modified_at) VALUES($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *';
+            const result = await connection.query(sql, [user.id, user.firstname, user.lastname, user.email, user.password, user.role]);
             connection.release();
             if (result.rows.length > 0) return result.rows[0];
 
@@ -47,12 +47,13 @@ export class UserStore {
         }
     }
 
-    async deleteUsers(): Promise<void> {
+    async deleteUsers(): Promise<null> {
         try {
             const connection = await Client.connect();
             const sql = 'DELETE FROM users';
             const result = await connection.query(sql);
             connection.release();
+            return null;
         }
         catch (error) {
             throw new Error(`Could not delete the user `);

@@ -18,7 +18,7 @@ const showSingleOrders = async (req: Request, res: Response) => {
 const showOrderByStatus = async (req: Request, res:Response) => {
     const userId: number = req.body.id;
     const status: string = req.body.status;
-    const order: Order | null = await store.getAllOrderByStatus(userId, status);
+    const order: Order[] | null = await store.getAllOrderByStatus(userId, status);
     res.status(200).json(order);
 }
 
