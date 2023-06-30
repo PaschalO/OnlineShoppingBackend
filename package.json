@@ -5,8 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node-dev src/index.js",
-    "test": "set ENV=test db-migrate up --config database.json -e test && jasmine-ts && db-migrate db:drop test",
-    "test2": "set ENV=test && db-migrate -e test up && npm run build && jasmine && db-migrate -e test reset",
+    "test": "set ENV=test && db-migrate -e test up && npm run build && jasmine && db-migrate -e test reset",
     "tsc": "tsc",
     "db": "nodemon src/database.ts",
     "serve": "nodemon src/index.ts",
