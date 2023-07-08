@@ -35,8 +35,8 @@ export class UserStore {
     async createUser(user: User): Promise<User | null> {
         try {
             const connection = await Client.connect();
-            const sql = 'INSERT INTO users (id, firstname, lastname, email, password, role, created_at, modified_at) VALUES($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *';
-            const result = await connection.query(sql, [user.id, user.firstname, user.lastname, user.email, user.password, user.role]);
+            const sql = 'INSERT INTO users (firstname, lastname, email, password, role, created_at, modified_at) VALUES($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *';
+            const result = await connection.query(sql, [user.firstname, user.lastname, user.email, user.password, user.role]);
             connection.release();
             if (result.rows.length > 0) return result.rows[0];
 
@@ -47,28 +47,26 @@ export class UserStore {
         }
     }
 
-    async deleteUsers(): Promise<null> {
+    async deleteUsers(): Promise<[]> {
         try {
             const connection = await Client.connect();
             const sql = 'DELETE FROM users';
             const result = await connection.query(sql);
             connection.release();
-            return null;
+            return [];
         }
         catch (error) {
             throw new Error(`Could not delete the user `);
         }
     }
 
-    async deleteUserById(userId: number): Promise<User | null> {
+    async deleteUserById(userId: number): Promise<[]> {
         try {
             const connection = await Client.connect();
             const sql = 'DELETE FROM users WHERE id=($1)';
             const result = await connection.query(sql, [userId]);
             connection.release();
-            if (result.rows.length > 0) return result.rows[0];
-
-            return null
+            return [];
         }
         catch (error) {
             throw new Error(`Could not delete the user by ID`);

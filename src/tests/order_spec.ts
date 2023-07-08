@@ -1,47 +1,89 @@
 
 import {Order} from "../utilities/types";
 import { OrderStore } from "../models/order";
+import {usersData } from "../Data/userData";
+import { productsData} from "../Data/productData";
+import {UserStore} from "../models/user";
+import {ProductStore} from "../models/product";
+
 
 const store: OrderStore = new OrderStore();
+const userStore: UserStore = new UserStore();
+const productStore: ProductStore =  new ProductStore();
 
 describe("Order Model", () => {
 
-    let orders: Order[];
-    let newOrder: Order| null;
-    beforeEach(async (): Promise<void> => {
+    let newOrder: Order | null;
+    // @ts-ignore
+    let user1, user2, user3;
+    let product1, product2, product3;
+    // let order1, order2, order3;
 
-        orders = [
-            {
-                id: 1,
-                user_id: 3,
-                product_id: 5,
-                order_status: "Active",
-                order_quantity: 3,
-            },
-            {
-                id: 2,
-                user_id: 5,
-                product_id: 3,
-                order_status: "Completed",
-                order_quantity: 4,
-            },
-            {
-                id: 3,
-                user_id: 2,
-                product_id: 3,
-                order_status: "Completed",
-                order_quantity: 7,
-            }
-        ]
+    beforeAll(async (): Promise<void> => {
 
-        for (const order of orders) {
+        // creating the 3 users
+        user1 = await userStore.createUser(usersData[0]);
+        user2 = await userStore.createUser(usersData[1]);
+        user3 = await userStore.createUser(usersData[2]);
+
+        // creating 3 products
+
+        product1 = await productStore.createProduct(productsData[0]);
+        product2 = await productStore.createProduct(productsData[1]);
+        product3 = await productStore.createProduct(productsData[2]);
+
+        // order data
+        const ordersData: Order[] =
+
+            [
+                {
+                    // @ts-ignore
+                    user_id: user1.id,
+                    // @ts-ignore
+                    product_id: product1.id,
+                    order_status: "Active",
+                    order_quantity: 3,
+                },
+                {
+                    // @ts-ignore
+                    user_id: user2.id,
+                    // @ts-ignore
+                    product_id: product2.id,
+                    order_status: "Completed",
+                    order_quantity: 4,
+                },
+                {
+                    // @ts-ignore
+                    user_id: user3.id,
+                    // @ts-ignore
+                    product_id: product3.id,
+                    order_status: "Completed",
+                    order_quantity: 7,
+                },
+                {
+                    // @ts-ignore
+                    user_id: user2.id,
+                    // @ts-ignore
+                    product_id: product1.id,
+                    order_status: "Completed",
+                    order_quantity: 2,
+                }
+            ]
+
+        for (const order of ordersData) {
             newOrder = await store.createOrder(order);
         }
     });
 
-    afterEach(async (): Promise<void> => {
-        //console.log('line 27 --  afterEach')
+    afterAll(async (): Promise<void> => {
         await store.deleteOrders();
+        await userStore.deleteUsers();
+        await productStore.deleteProducts();
+
+        //resetting all the variables
+        user1 = null; user2 = null; user3 = null;
+        product1 = null; product2 = null; product3 = null;
+        newOrder = null;
     });
 
     describe("it checks that Order Model methods are defined", () => {
@@ -63,14 +105,15 @@ describe("Order Model", () => {
         it('checks if the order array is not empty', async (): Promise<void> => {
             const result: Order[] | null = await store.getAllOrders();
             expect(result).not.toBeNull();
-            expect(result?.length).toBeGreaterThan(0);
+            expect(result?.length).toBeGreaterThan(2);
         });
     });
 
     describe('should check if a order was returned from the database with the given order id', () => {
 
         it('checks that the returned order by ID is not null', async () => {
-            const userId: number = 1;
+            // @ts-ignore
+            const userId: number = user1.id;
             const result: Order | null = await store.getOrderByUserId(userId);
             expect(result).not.toBeNull();
         });
@@ -87,7 +130,8 @@ describe("Order Model", () => {
         it('should return an array of orders by status', async () => {
             const status: string = 'Completed';
             const pattern: RegExp = /completed/i;
-            const userId: number = 1;
+            // @ts-ignore
+            const userId: number = user2.id;
             const result: Order[] | null = await store.getAllOrderByStatus(userId, status);
 
             if (result) {

@@ -100,8 +100,8 @@ export class ProductStore {
     async createProduct(product: Product): Promise<Product | null> {
         try {
             const connection = await Client.connect();
-            const sql = 'INSERT INTO products (id, name, price, category, description, image, in_stock, created_at, modified_at) VALUES($1, $2, $3, $4, $5, $6, $7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *';
-            const result = await connection.query(sql, [product.id, product.name, product.price, product.category, product.description, product.image, product.in_stock]);
+            const sql = 'INSERT INTO products (name, price, category, description, image, in_stock, created_at, modified_at) VALUES($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *';
+            const result = await connection.query(sql, [product.name, product.price, product.category, product.description, product.image, product.in_stock]);
             connection.release();
             if (result.rows.length > 0) return result.rows[0];
 

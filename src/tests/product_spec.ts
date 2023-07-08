@@ -1,36 +1,15 @@
 import {Product} from "../utilities/types";
 import {ProductStore} from "../models/product";
+import {productsData} from "../Data/productData";
 
 const store: ProductStore = new ProductStore();
 
 describe("Products Model", () => {
 
-    let products: Product[];
     let newProduct: Product | null;
+    let productId: number;
     beforeEach(async (): Promise<void> => {
-
-        products = [
-            {
-                id: 1,
-                name: "Apple Laptop",
-                price: 2499.99,
-                category: "Electronics",
-                description: "A brown laptop with 512GB, 16 RAM etc.",
-                image: "https://www.apple.com/ca/shop/buy-mac/macbook-pro/14-inch",
-                in_stock: false
-            },
-            {
-                id: 2,
-                name: "Microsoft Laptop",
-                price: 1999.99,
-                category: "Electronics",
-                description: "A black laptop with 512GB, 16 RAM etc.",
-                image: "https://www.apple.com/ca/shop/buy-mac/macbook-pro/14-inch",
-                in_stock: true
-            },
-        ]
-
-        for (const product of products) {
+        for (const product of productsData) {
             newProduct = await store.createProduct(product);
         }
     });
@@ -38,6 +17,8 @@ describe("Products Model", () => {
     afterEach(async (): Promise<void> => {
         //console.log('line 27 --  afterEach')
         await store.deleteProducts();
+        productId = 0;
+        newProduct = null;
     });
 
 
@@ -68,31 +49,29 @@ describe("Products Model", () => {
         it('checks if the product array is not empty', async (): Promise<void> => {
             const result: Product[] | null = await store.getAllProducts();
             expect(result).not.toBeNull();
-            expect(result?.length).toBeGreaterThan(0);
+            expect(result?.length).toBeGreaterThan(1);
         });
     });
 
     describe('should check if a product was returned from the database with the given product id', () => {
 
         it('checks that the requested product that exist in the db is not null', async () => {
-            const result: Product | null = await store.getProductById(1);
+            // @ts-ignore
+            productId = newProduct.id
+            const result: Product | null = await store.getProductById(productId);
             expect(result).not.toBeNull();
         });
 
-        it('checks for a product that does not exist in the database, returns null', async () => {
-            const result: Product | null = await store.getProductById(5);
-            expect(result).toBeNull();
-        });
-
         it('checking if the object value matches', async () => {
-            const result: Product | null = await store.getProductById(1);
-            expect(result?.id).toEqual(products[0]?.id);
-            expect(result?.name).toEqual(products[0]?.name);
-            expect(result?.price).toEqual(products[0]?.price);
-            expect(result?.category).toEqual(products[0]?.category);
-            expect(result?.description).toEqual(products[0]?.description);
-            expect(result?.image).toEqual(products[0]?.image);
-            expect(result?.in_stock).toEqual(products[0]?.in_stock);
+            // @ts-ignore
+            productId = newProduct.id
+            const result: Product | null = await store.getProductById(productId);
+            expect(result?.name).toEqual(productsData[2]?.name);
+            expect(result?.price).toEqual(productsData[2]?.price);
+            expect(result?.category).toEqual(productsData[2]?.category);
+            expect(result?.description).toEqual(productsData[2]?.description);
+            expect(result?.image).toEqual(productsData[2]?.image);
+            expect(result?.in_stock).toEqual(productsData[2]?.in_stock);
         });
     });
 

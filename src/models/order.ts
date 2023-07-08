@@ -109,8 +109,8 @@ export class OrderStore {
     async createOrder(order: Order): Promise<Order | null> {
         try {
             const connection = await Client.connect();
-            const sql = 'INSERT INTO orders (id, user_id, product_id, order_status, order_quantity, created_at, modified_at) VALUES($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *';
-            const result = await connection.query(sql, [order.id, order.user_id, order.product_id, order.order_status, order.order_quantity]);
+            const sql = 'INSERT INTO orders (user_id, product_id, order_status, order_quantity, created_at, modified_at) VALUES($1, $2, $3, $4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *';
+            const result = await connection.query(sql, [order.user_id, order.product_id, order.order_status, order.order_quantity]);
             connection.release();
             if (result.rows.length > 0) return result.rows[0];
 

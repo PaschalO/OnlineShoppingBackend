@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
       firstname VARCHAR(60) NOT NULL,
       lastname VARCHAR(60) NOT NULL,
       email VARCHAR NOT NULL,
-      password VARCHAR(50) NOT NULL,
+      password VARCHAR(100) NOT NULL,
       role VARCHAR(5),
       created_at TIMESTAMP,
       modified_at TIMESTAMP
@@ -25,12 +25,12 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS orders (
     id  SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
+    user_id INTEGER,
+    product_id INTEGER,
     FOREIGN KEY(user_id) REFERENCES users(id),
     FOREIGN KEY (product_id) REFERENCES products(id),
     order_status CHAR(25) NOT NULL,
-    order_quantity INTEGER NOT NULL,
+    order_quantity INTEGER,
     created_at TIMESTAMP,
     modified_at TIMESTAMP
 );

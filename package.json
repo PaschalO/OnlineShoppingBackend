@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node-dev src/index.js",
-    "test": "set ENV=test && db-migrate -e test up && npm run build && jasmine && db-migrate -e test reset",
+    "test": "set ENV=test&& db-migrate -e test up && npm run test && db-migrate -e test reset",
     "tsc": "tsc",
     "db": "nodemon src/database.ts",
     "serve": "nodemon src/index.ts",
@@ -13,7 +13,8 @@
     "build": "npx tsc",
     "watch": "tsc-watch --esModuleInterop src/index.ts --outDir ./build --onSuccess 'node ./build/index.js'",
     "jasmine": "jasmine",
-    "testJB": "npm run build && npm run jasmine"
+    "testJB": "npm run build && npm run jasmine",
+    "single": "npm run build && npx jasmine build/test/user_spec.js"
   },
   "author": "Udacity",
   "license": "ISC",
@@ -30,7 +31,7 @@
     "@types/jasmine": "^3.10.10",
     "@types/pg": "^7.14.11",
     "dotenv": "^16.1.4",
-    "jasmine": "^4.6.0",
+    "jasmine": "^5.0.2",
     "jasmine-spec-reporter": "^6.0.0",
     "jasmine-ts": "^0.4.0",
     "nodemon": "^1.14.9",
