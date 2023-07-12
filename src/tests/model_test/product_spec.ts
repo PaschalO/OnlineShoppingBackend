@@ -1,6 +1,6 @@
-import {Product} from "../utilities/types";
-import {ProductStore} from "../models/product";
-import {productsData} from "../Data/productData";
+import {Product} from "../../utilities/types";
+import {ProductStore} from "../../models/product";
+import {productsData} from "../../Data/productData";
 
 const store: ProductStore = new ProductStore();
 

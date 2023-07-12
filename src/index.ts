@@ -12,14 +12,14 @@ const corsOptions = {
     origin: 'http://example.com',
     optionsSuccessStatus: 200
 }
-
  */
 
 //app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(routes);
+routes(app);
 
 app.listen(port, () => {
     console.log(`server started at http://localhost:${port}`);
 });
 
+export default app;

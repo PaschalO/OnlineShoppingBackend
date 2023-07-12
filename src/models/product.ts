@@ -30,7 +30,7 @@ export class ProductStore {
             return null;
         }
         catch (error) {
-            throw new Error(`Could not get a product: ${error}` )
+            throw new Error(`Could not get a product ${id}: ${error}` )
         }
     }
 
@@ -38,7 +38,7 @@ export class ProductStore {
 
         try {
             const connection = await Client.connect();
-            const sql = 'SELECT * FROM products WHERE category LIKE $1';
+            const sql = 'SELECT * FROM products WHERE category LIKE ($1)';
             const result = await connection.query(sql, [`%${category}%`]);
             connection.release();
 
@@ -47,7 +47,7 @@ export class ProductStore {
             return null;
         }
         catch (error) {
-            throw new Error(`Could not get a product: ${error}` )
+            throw new Error(`Could not get products by the given category ${category}: ${error}` )
         }
     }
 
@@ -59,7 +59,7 @@ export class ProductStore {
             connection.release();
         }
         catch (error) {
-            throw new Error(`Could not delete product `);
+            throw new Error(`Could not delete all products`);
         }
     }
 
@@ -76,7 +76,7 @@ export class ProductStore {
             return null;
         }
         catch (error) {
-            throw new Error(`Could not get a product: ${error}` )
+            throw new Error(`Could not delete a product ${id}: ${error}` )
         }
     }
 
@@ -93,7 +93,7 @@ export class ProductStore {
             return null;
         }
         catch (error) {
-            throw new Error(`Could not get a product: ${error}` )
+            throw new Error(`Could not the top five popular products: ${error}` )
         }
     }
 

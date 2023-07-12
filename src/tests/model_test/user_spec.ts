@@ -1,6 +1,6 @@
-import {User} from "../utilities/types";
-import { UserStore } from "../models/user";
-import { usersData } from "../Data/userData";
+import {User} from "../../utilities/types";
+import { UserStore } from "../../models/user";
+import { usersData } from "../../Data/userData";
 
 const store: UserStore = new UserStore();
 

@@ -108,6 +108,6 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   //"type": "module",
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "./build", "spec"]
+  "include": ["src/**/*.ts", "src/**/*"],
+  "exclude": ["node_modules", "./build", "spec",  "<node_internals>/**", "bin/**"]
 }

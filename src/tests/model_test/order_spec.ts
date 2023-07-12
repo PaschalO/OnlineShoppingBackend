@@ -1,10 +1,10 @@
 
-import {Order} from "../utilities/types";
-import { OrderStore } from "../models/order";
-import {usersData } from "../Data/userData";
-import { productsData} from "../Data/productData";
-import {UserStore} from "../models/user";
-import {ProductStore} from "../models/product";
+import {Order} from "../../utilities/types";
+import { OrderStore } from "../../models/order";
+import {usersData } from "../../Data/userData";
+import { productsData} from "../../Data/productData";
+import {UserStore} from "../../models/user";
+import {ProductStore} from "../../models/product";
 
 
 const store: OrderStore = new OrderStore();
@@ -17,7 +17,6 @@ describe("Order Model", () => {
     // @ts-ignore
     let user1, user2, user3;
     let product1, product2, product3;
-    // let order1, order2, order3;
 
     beforeAll(async (): Promise<void> => {
 
@@ -27,7 +26,6 @@ describe("Order Model", () => {
         user3 = await userStore.createUser(usersData[2]);
 
         // creating 3 products
-
         product1 = await productStore.createProduct(productsData[0]);
         product2 = await productStore.createProduct(productsData[1]);
         product3 = await productStore.createProduct(productsData[2]);

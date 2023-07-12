@@ -4,6 +4,9 @@ export const {
     POSTGRES_USER,
     POSTGRES_PASSWORD,
     POSTGRES_TEST_DB,
-    ENV
+    ENV,
+    PEPPER,
+    SALT_ROUNDS,
+    TOKEN_SECRET
 } = process.env
 

@@ -80,7 +80,7 @@ export class OrderStore {
         try {
             const connection = await Client.connect();
             const sql =
-                'UPDATE orders SET order_quantity = $(2) WHERE id=($1)';
+                'UPDATE orders SET order_quantity = $(2) WHERE id=($1) RETURNING *';
             const result = await connection.query(sql, [id, quantity]);
             connection.release();
 
