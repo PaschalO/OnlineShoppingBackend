@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
       id  SERIAL PRIMARY KEY,
       firstname VARCHAR(60) NOT NULL,
       lastname VARCHAR(60) NOT NULL,
-      email VARCHAR NOT NULL UNIQUE,
+      email VARCHAR NOT NULL,
       password VARCHAR(100) NOT NULL,
       role VARCHAR(5),
       created_at TIMESTAMP,

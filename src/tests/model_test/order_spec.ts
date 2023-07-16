@@ -84,7 +84,7 @@ describe("Order Model", () => {
         newOrder = null;
     });
 
-    describe("it checks that Order Model methods are defined", () => {
+    describe("should check that Order Model methods are defined", () => {
         it('should have a getAllOrders method', () => {
             expect(store.getAllOrders).toBeDefined();
         });
@@ -99,8 +99,8 @@ describe("Order Model", () => {
     })
 
 
-    describe("should check if there an order exist in the database", () => {
-        it('checks if the order array is not empty', async (): Promise<void> => {
+    describe("should return a list of all orders", () => {
+        it('should check if the order array is not empty', async (): Promise<void> => {
             const result: Order[] | null = await store.getAllOrders();
             expect(result).not.toBeNull();
             expect(result?.length).toBeGreaterThan(2);
@@ -109,21 +109,21 @@ describe("Order Model", () => {
 
     describe('should check if a order was returned from the database with the given order id', () => {
 
-        it('checks that the returned order by ID is not null', async () => {
+        it('should checks that the returned order by ID is not null', async () => {
             // @ts-ignore
             const userId: number = user1.id;
             const result: Order | null = await store.getOrderByUserId(userId);
             expect(result).not.toBeNull();
         });
 
-        it('checks for an order that was never made, returns null', async () => {
+        it('should check for an order that was never made, returns null', async () => {
             const userId: number = 5
             const result: Order | null = await store.getOrderByUserId(userId);
             expect(result).toBeNull();
         });
     });
 
-    describe('it should return a list of orders by status', () => {
+    describe('should return a list of orders by status', () => {
 
         it('should return an array of orders by status', async () => {
             const status: string = 'Completed';

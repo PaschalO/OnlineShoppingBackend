@@ -4,7 +4,10 @@
     "**/*[sS]pec.?(m)js"
   ],
   "helpers": [
-    "helpers/**/*.?(m)js"
+    "helpers/**/*.?(m)js",
+    "helpers/globalSetup.js",
+    "helpers/global.d.ts"
+
   ],
   "env": {
     "stopSpecOnExpectationFailure": false,

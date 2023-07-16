@@ -1,7 +1,19 @@
 import Client from '../database';
 import {Product} from "../utilities/types";
 
+/**
+ *  A ProductStore class which contains methods relating to products
+ *  @class
+ * **/
 export class ProductStore {
+
+    /**
+     * Gets all products from the Product db
+     * @async
+     * @function getAllProducts
+     * @returns {Promise<Product[] | null>} - Returns all products from the product database or null
+     *                                        if there is no created product in the product db
+     */
     async getAllProducts(): Promise<Product[] | null> {
         try {
             const connection = await Client.connect();
@@ -14,10 +26,17 @@ export class ProductStore {
             return null;
         }
         catch (error) {
-            throw new Error(`Could not get all products: ${error}` )
+                throw new Error(`Could not get all products: ${error}` )
         }
     }
 
+    /**
+     * Gets a single product with the given product id from the Product db
+     * @async
+     * @function getProductById
+     * @param {number} id - a product id
+     * @returns {Promise<Product | null>} - Returns a single product from the product database or null if the product is not found
+     */
     async getProductById(id: number): Promise<Product | null>{
         try {
             const connection = await Client.connect();
@@ -34,13 +53,22 @@ export class ProductStore {
         }
     }
 
+    /**
+     * Filters products by the given category in the Product db
+     * @async
+     * @function getProductByCategory
+     * @param {string} category - a filter for the search
+     * @returns {Promise<Product[] | null>} - Returns all products that matches the filter from the product database or
+     *                                        null if there is no product that matches that category
+     */
     async getProductByCategory(category: string): Promise<Product[] | null>{
 
         try {
             const connection = await Client.connect();
-            const sql = 'SELECT * FROM products WHERE category LIKE ($1)';
-            const result = await connection.query(sql, [`%${category}%`]);
+            const sql = 'SELECT * FROM products WHERE category=($1)';
+            const result = await connection.query(sql, [category]);
             connection.release();
+            //console.log(result, 'line 44 from controller')
 
             if (result.rows.length > 0) return result.rows;
 
@@ -51,19 +79,33 @@ export class ProductStore {
         }
     }
 
-    async deleteProducts(): Promise<void> {
+    /**
+     * Deletes all products in the Product db
+     * @async
+     * @function deleteProducts
+     * @returns {Promise<Product[]} - Returns an empty list after deleting all users
+     */
+    async deleteProducts(): Promise<[]> {
         try {
             const connection = await Client.connect();
             const sql = 'DELETE FROM products';
             const result = await connection.query(sql);
             connection.release();
+            return [];
         }
         catch (error) {
             throw new Error(`Could not delete all products`);
         }
     }
 
-    async deleteProduct(id: number): Promise<Product | null>{
+    /**
+     * Deletes a single product with the given product id in the Product db
+     * @async
+     * @function getProductByCategory
+     * @param {number} id - deletes
+     * @returns {Promise<Product[] | null>} - Returns a list of products from the Product db after deletion
+     */
+    async deleteProduct(id: number): Promise<Product[] | []>{
 
         try {
             const connection = await Client.connect();
@@ -71,24 +113,30 @@ export class ProductStore {
             const result = await connection.query(sql, [id]);
             connection.release();
 
-            if (result.rows.length > 0) return result.rows[0];
+            if (result.rows.length > 0) return result.rows;
 
-            return null;
+            return [];
         }
         catch (error) {
             throw new Error(`Could not delete a product ${id}: ${error}` )
         }
     }
 
-    async getTopFivePopularProducts(): Promise<Product[] | null>{
+    /**
+     * Shows the top 5 popular products from the product db
+     * @async
+     * @function getTopFivePopularProducts
+     * @returns {Promise<Product[] | null>} - return a list top 5 popular products from the Product db
+     */
+    async getTopFivePopularProducts(): Promise<Product[] | null> {
 
         try {
             const connection = await Client.connect();
-            const sql =  'SELECT products.name, SUM(products.price) as p_name FROM products INNER JOIN orders o on products.id = o.product_id WHERE o.order_status=($1) GROUP BY products.name ORDER BY SUM(products.price) DESC LIMIT 5';
+            const sql =  'SELECT products.name, SUM(products.price) as price, order_status, order_quantity FROM products INNER JOIN orders o on products.id = o.product_id WHERE o.order_status=($1) GROUP BY products.name, order_status, order_quantity ORDER BY SUM(order_quantity) DESC LIMIT 5';
             const result = await connection.query(sql, ['Completed']);
             connection.release();
 
-            if (result.rows.length > 0) return result.rows[0];
+            if (result.rows.length > 0) return result.rows;
 
             return null;
         }
@@ -97,6 +145,13 @@ export class ProductStore {
         }
     }
 
+    /**
+     * Creates a product with the given product Object
+     * @async
+     * @function createProduct
+     * @param {Object} product
+     * @returns {Promise<Product | null>} - Returns the newly created product or null
+     */
     async createProduct(product: Product): Promise<Product | null> {
         try {
             const connection = await Client.connect();

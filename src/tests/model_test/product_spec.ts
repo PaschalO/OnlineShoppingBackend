@@ -46,23 +46,23 @@ describe("Products Model", () => {
     });
 
     describe("should check if there a product exist in the database", () => {
-        it('checks if the product array is not empty', async (): Promise<void> => {
+        it('should check if the product array is not empty', async (): Promise<void> => {
             const result: Product[] | null = await store.getAllProducts();
             expect(result).not.toBeNull();
             expect(result?.length).toBeGreaterThan(1);
         });
     });
 
-    describe('should check if a product was returned from the database with the given product id', () => {
+    describe('should return a product with a given ID', () => {
 
-        it('checks that the requested product that exist in the db is not null', async () => {
+        it('should check that the requested product that exist in the db is not null', async () => {
             // @ts-ignore
             productId = newProduct.id
             const result: Product | null = await store.getProductById(productId);
             expect(result).not.toBeNull();
         });
 
-        it('checking if the object value matches', async () => {
+        it('it should check if the product properties matches', async () => {
             // @ts-ignore
             productId = newProduct.id
             const result: Product | null = await store.getProductById(productId);
@@ -75,7 +75,8 @@ describe("Products Model", () => {
         });
     });
 
-    describe('it should return products by category', () => {
+    describe('should return products by category', () => {
+
         it('should return product a product in the db with given category', async () => {
             const category: string = 'Electronics'
             const pattern: RegExp = /electronics/i;
