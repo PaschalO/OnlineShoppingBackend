@@ -3,6 +3,14 @@ import {TOKEN_SECRET} from "../config";
 
 const jwt = require('jsonwebtoken');
 
+/**
+ * Verifies the user token to make sure they are authorized to the appropriate page
+ * @async
+ * @function verifyAuthToken
+ * @type {res: Request, res: Response}
+ * @returns {Promise<void>}
+ */
+
 const verifyAuthToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const authorizationHeader: string | undefined = req.headers.authorization;
@@ -13,11 +21,11 @@ const verifyAuthToken = async (req: Request, res: Response, next: NextFunction):
         }
 
         else {
-            res.status(400).json({message: 'no authorization header'});
+            res.status(403).json({message: 'no authorization header'});
         }
 
     } catch (error) {
-        res.status(400).json({message: `Invalid Token ${error}`});
+        res.status(403).json({message: `Invalid Token ${error}`});
     }
 }
 

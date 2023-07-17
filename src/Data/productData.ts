@@ -1,4 +1,9 @@
 import {Product} from "../utilities/types";
+
+/*
+* Mock data to be used for Product model test & endpoint tests
+*
+* */
 export const productsData: Product[] =
     [
         {

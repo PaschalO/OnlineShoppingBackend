@@ -97,6 +97,13 @@ const removeProduct = async (req: Request, res: Response): Promise<void> => {
     res.status(200).send('success');
 }
 
+/**
+ * delete all products from the product db
+ * @async
+ * @function removeAllProducts
+ * @type {req: Request, res: Response}
+ * @returns {Promise<void>}
+ */
 const removeAllProducts = async(req: Request, res: Response): Promise<void> => {
     const product: [] = await store.deleteProducts();
     res.status(200).send('success');

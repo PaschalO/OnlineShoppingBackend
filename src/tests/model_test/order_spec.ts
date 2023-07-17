@@ -125,7 +125,7 @@ describe("Order Model", () => {
 
     describe('should return a list of orders by status', () => {
 
-        it('should return an array of orders by status', async () => {
+        it('should return an array of user orders by status', async () => {
             const status: string = 'Completed';
             const pattern: RegExp = /completed/i;
             // @ts-ignore

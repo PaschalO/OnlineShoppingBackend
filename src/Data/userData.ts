@@ -1,4 +1,9 @@
 import {User} from "../utilities/types";
+
+/*
+* Mock data to be used for User model test & endpoint tests
+*
+* */
 export const usersData: User[] =
     [
         {

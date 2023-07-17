@@ -2,7 +2,7 @@ import Client from '../database';
 import {Product} from "../utilities/types";
 
 /**
- *  A ProductStore class which contains methods relating to products
+ *  A ProductStore class which contains methods relating to the product schema
  *  @class
  * **/
 export class ProductStore {

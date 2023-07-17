@@ -95,7 +95,7 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
 /**
  * delete all users from the user db
  * @async
- * @function deleteUsers
+ * @function deleteAllUsers
  * @type {req: Request, res: Response}
  * @returns {Promise<void>}
  */

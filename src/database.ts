@@ -1,3 +1,9 @@
+/*
+*   This is the database configuration file
+*
+* */
+
+
 import {Pool} from "pg";
 const dotenv = require('dotenv');
 dotenv.config();

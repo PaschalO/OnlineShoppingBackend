@@ -2,7 +2,7 @@ import Client from '../database';
 import {Order} from "../utilities/types";
 
 /**
- *  A OrderStore class which contains methods relating to order
+ *  A OrderStore class which contains methods relating to order schema
  *  @class
  * **/
 export class OrderStore {
@@ -86,39 +86,6 @@ export class OrderStore {
             throw new Error(`Could not get an order by status ${error}` );
         }
     }
-    async updateOrderByStatus(id: number, status: string): Promise<Order | null>{
-        try {
-            const connection = await Client.connect();
-            const sql =
-                'UPDATE orders SET order_status = $(2) WHERE id=($1)';
-            const result = await connection.query(sql, [id, status]);
-            connection.release();
-
-            if (result.rows.length > 0) return result.rows[0];
-
-            return null;
-        }
-        catch (error) {
-            throw new Error(`Could not get a order: ${error}` )
-        }
-    }
-
-    async updateOrderByQuantity(id: number, quantity: string): Promise<Order | null>{
-        try {
-            const connection = await Client.connect();
-            const sql =
-                'UPDATE orders SET order_quantity = $(2) WHERE id=($1) RETURNING *';
-            const result = await connection.query(sql, [id, quantity]);
-            connection.release();
-
-            if (result.rows.length > 0) return result.rows[0];
-
-            return null;
-        }
-        catch (error) {
-            throw new Error(`Could not get a order: ${error}` )
-        }
-    }
 
     /**
      * Deletes a single order in the Order db
@@ -160,6 +127,40 @@ export class OrderStore {
         }
         catch (error) {
             throw new Error(`Could not create an order ${order}: Error - ${error}`)
+        }
+    }
+
+    async updateOrderByStatus(id: number, status: string): Promise<Order | null>{
+        try {
+            const connection = await Client.connect();
+            const sql =
+                'UPDATE orders SET order_status = $(2) WHERE id=($1)';
+            const result = await connection.query(sql, [id, status]);
+            connection.release();
+
+            if (result.rows.length > 0) return result.rows[0];
+
+            return null;
+        }
+        catch (error) {
+            throw new Error(`Could not get a order: ${error}` )
+        }
+    }
+
+    async updateOrderByQuantity(id: number, quantity: string): Promise<Order | null>{
+        try {
+            const connection = await Client.connect();
+            const sql =
+                'UPDATE orders SET order_quantity = $(2) WHERE id=($1) RETURNING *';
+            const result = await connection.query(sql, [id, quantity]);
+            connection.release();
+
+            if (result.rows.length > 0) return result.rows[0];
+
+            return null;
+        }
+        catch (error) {
+            throw new Error(`Could not get a order: ${error}` )
         }
     }
 

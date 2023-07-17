@@ -1,3 +1,8 @@
+/*
+* This file contains the types for the database schema
+*
+* */
+
 export type User = {
     id?: number,
     firstname: string,
