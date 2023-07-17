@@ -5,38 +5,46 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
+- ShowAllProducts - `/products` [GET]
+- ShowSingleProducts - `products/:id` [GET]
+- CreateProduct [token required] -  `/products` [POST]
+- [OPTIONAL] Top 5 most popular products `/products/product/top-five-popular-products` [GET]
+- [OPTIONAL] Products by category (args: product category) `/products/category/:category` [GET]
+- [OPTIONAL] Delete [token required, admin permission] product by id (args: product id) `/products/:id` [DELETE]
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- showAllUsers [token required] `/users` [GET]
+- showSingleUser [token required] `/users/:id` [GET]
+- createUser - `/users` [POST]
+- deleteAllUsers [token required, admin permission] -`/users` [DELETE]
+- deleteUser [token required, admin permission] - `/users/:id` [DELETE]
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required] `/orders/:id` [GET]
+- [OPTIONAL] Completed Orders by user (args: user id)[token required] `/orders/users/:id/:status` [POST]
+- showAllOrders [token required] - `/orders` [GET]
 
 ## Data Shapes
 #### Product
--  id
-- name
-- price
-- [OPTIONAL] category
+-  id [SERIAL PRIMARY KEY]
+- name [VARCHAR]
+- price [FLOAT]
+- [OPTIONAL] category [VARCHAR]
+- DESCRIPTION [TEXT]
+- image [VARCHAR]
 
 #### User
-- id
-- firstName
-- lastName
-- password
+- id [SERIAL PRIMARY KEY] 
+- firstName [VARCHAR]
+- lastName [VARCHAR]
+- password [VARCHAR]
+- email [VARCHAR]
+- role [VARCHAR]
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+- id [SERIAL PRIMARY KEY]
+- id of each product in the order [FOREIGN KEY TO PRODUCT ID]
+- quantity of each product in the order [INTEGER]
+- user_id [FOREIGN KEY TO USER ID]
+- status of order (active or complete) [CHAR]
 
