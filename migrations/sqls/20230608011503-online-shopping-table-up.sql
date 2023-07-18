@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
       firstname VARCHAR(60) NOT NULL,
       lastname VARCHAR(60) NOT NULL,
       email VARCHAR NOT NULL,
-      password VARCHAR(100) NOT NULL,
+      password VARCHAR NOT NULL,
       role VARCHAR(5),
       created_at TIMESTAMP,
       modified_at TIMESTAMP
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS products (
      price FLOAT(10) NOT NULL,
      category VARCHAR(40) NOT NULL,
      description TEXT NOT NULL,
-     image VARCHAR(100) NOT NULL,
+     image VARCHAR NOT NULL,
      in_stock BOOLEAN NOT NULL,
      created_at TIMESTAMP,
      modified_at TIMESTAMP
@@ -35,11 +35,3 @@ CREATE TABLE IF NOT EXISTS orders (
     modified_at TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS stocks (
-    id SERIAL PRIMARY KEY,
-    product_id INTEGER,
-    FOREIGN KEY(product_id) REFERENCES products(id),
-    stock_quantity INTEGER NOT NULL,
-    created_at TIMESTAMP,
-    modified_at TIMESTAMP
-);

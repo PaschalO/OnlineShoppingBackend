@@ -17,6 +17,8 @@ The project was developed with the following technologies below:
 - Docker
 - Nodemon from npm
 - Cors from npm
+- Prettier from npm
+- Eslint from npm
 
 ## DEVELOPMENT SETUP
 - Clone the project

@@ -1,6 +1,6 @@
 import { OrderStore } from "../models/order";
-import {Request, Response} from "express";
-import {Order} from "../utilities/types";
+import { Request, Response } from "express";
+import { Order } from "../utilities/types";
 
 const store: OrderStore = new OrderStore();
 
@@ -13,22 +13,20 @@ const store: OrderStore = new OrderStore();
  * @returns {Promise<void>}
  */
 const createOrder = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const order: Order  = {
-            user_id: req.body.user_id,
-            product_id: req.body.product_id,
-            order_status: req.body.order_status.toLowerCase(),
-            order_quantity: req.body.order_quantity
-        }
+	try {
+		const order: Order = {
+			user_id: req.body.user_id,
+			product_id: req.body.product_id,
+			order_status: req.body.order_status.toLowerCase(),
+			order_quantity: req.body.order_quantity
+		};
 
-        const newOrder: Order | null = await store.createOrder(order);
-        res.status(200).json(newOrder);
-    }
-
-    catch (error){
-        res.status(400).json({message: `cannot create an order ${error}`});
-    }
-}
+		const newOrder: Order | null = await store.createOrder(order);
+		res.status(200).json(newOrder);
+	} catch (error) {
+		res.status(400).json({ message: `cannot create an order ${error}` });
+	}
+};
 
 /**
  * shows a list of all orders from the order db - A json object of all order will be sent to the client if successful
@@ -38,9 +36,9 @@ const createOrder = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const showAllOrders = async (req: Request, res: Response): Promise<void> => {
-    const orders: Order[] | null = await store.getAllOrders();
-    res.status(200).json(orders);
-}
+	const orders: Order[] | null = await store.getAllOrders();
+	res.status(200).json(orders);
+};
 
 /**
  * shows a single order from the order db -  A json object of the queried order will be sent to the client if successful
@@ -50,10 +48,10 @@ const showAllOrders = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const showSingleOrder = async (req: Request, res: Response): Promise<void> => {
-    const userId: number = parseInt(req.params.user_id);
-    const order: Order | null = await store.getOrderByUserId(userId);
-    res.status(200).json(order);
-}
+	const userId: number = parseInt(req.params.user_id);
+	const order: Order | null = await store.getOrderByUserId(userId);
+	res.status(200).json(order);
+};
 
 /**
  * Shows a list of all orders made by the user . A json object containing a list of all orders by the status for the queried user will be sent to the client
@@ -62,13 +60,19 @@ const showSingleOrder = async (req: Request, res: Response): Promise<void> => {
  * @type {req: Request, res: Response}
  * @returns {Promise<void>}
  */
-const showOrderByStatus = async (req: Request, res:Response): Promise<void> => {
-    // const productCategory: string = req.query.products as string;
-    const userId: number = parseInt(req.params.id);
-    const status: string = req.params.status as string;
-    const order: Order[] | null = await store.getAllOrderByStatus(userId, status);
-    res.status(200).json(order);
-}
+const showOrderByStatus = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
+	// const productCategory: string = req.query.products as string;
+	const userId: number = parseInt(req.params.id);
+	const status: string = req.params.status as string;
+	const order: Order[] | null = await store.getAllOrderByStatus(
+		userId,
+		status
+	);
+	res.status(200).json(order);
+};
 
 /**
  * delete all orders from the order db
@@ -78,8 +82,8 @@ const showOrderByStatus = async (req: Request, res:Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const deleteOrders = async (req: Request, res: Response): Promise<void> => {
-    const order: [] = await store.deleteOrders();
-    res.status(200).json(order);
-}
+	const order: [] = await store.deleteOrders();
+	res.status(200).json(order);
+};
 
-export { showAllOrders, showSingleOrder, showOrderByStatus, createOrder }
+export { showAllOrders, showSingleOrder, showOrderByStatus, createOrder, deleteOrders };
