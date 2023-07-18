@@ -3405,3 +3405,4 @@
 /node_modules/yn/readme.md
 /node_modules/.package-lock.json
 /file.txt
+/.eslintignore
