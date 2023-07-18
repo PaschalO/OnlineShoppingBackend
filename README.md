@@ -35,14 +35,14 @@ The project was developed with the following technologies below:
 
 ## ENV SETUP
 - Here are the environmental variables used for this project
-  - POSTGRES_DB=online_shopping`
+  - POSTGRES_DB=online_shopping
   - POSTGRES_USER=paschal
   - POSTGRES_PASSWORD=alex904
   - ENV=dev
   - POSTGRES_TEST_DB=testdb 
   - SALT_ROUNDS=10 
   - PEPPER=your-secret-password 
-  - TOKEN_SECRET=user-test-for-udacity`
+  - TOKEN_SECRET=user-test-for-udacity
 
 ## COMPILATION
 - Run `npm run serve`. Uses nodemon to listen for file changes/edits
