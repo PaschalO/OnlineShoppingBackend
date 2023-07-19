@@ -48,7 +48,7 @@ const showAllOrders = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const showSingleOrder = async (req: Request, res: Response): Promise<void> => {
-	const userId: number = parseInt(req.params.user_id);
+	const userId: number = parseInt(req.params.id);
 	const order: Order | null = await store.getOrderByUserId(userId);
 	res.status(200).json(order);
 };
@@ -66,7 +66,9 @@ const showOrderByStatus = async (
 ): Promise<void> => {
 	// const productCategory: string = req.query.products as string;
 	const userId: number = parseInt(req.params.id);
-	const status: string = req.params.status as string;
+	const status: string = req.query.order as string;
+	//const status: string = req.params.status;
+	console.log(status, 'line 71')
 	const order: Order[] | null = await store.getAllOrderByStatus(
 		userId,
 		status
@@ -86,4 +88,10 @@ const deleteOrders = async (req: Request, res: Response): Promise<void> => {
 	res.status(200).json(order);
 };
 
-export { showAllOrders, showSingleOrder, showOrderByStatus, createOrder, deleteOrders };
+export {
+	showAllOrders,
+	showSingleOrder,
+	showOrderByStatus,
+	createOrder,
+	deleteOrders
+};

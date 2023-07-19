@@ -24,7 +24,8 @@ import {
 } from "../controllers/product";
 
 import {
-	createOrder, deleteOrders,
+	createOrder,
+	deleteOrders,
 	showAllOrders,
 	showOrderByStatus,
 	showSingleOrder
@@ -41,7 +42,7 @@ const routes = (app: express.Application): void => {
 	//app.get('/orders/:id?order=status', showOrderByStatus);
 	app.get("/orders/users/:id/:status", showOrderByStatus);
 	app.post("/orders", createOrder);
-	app.delete('/orders', deleteOrders);
+	app.delete("/orders", deleteOrders);
 	//app.put('/orders/:id/status/');
 	//app.put('/orders/:id/quantity');
 
