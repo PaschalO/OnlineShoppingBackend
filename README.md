@@ -49,3 +49,4 @@ The project was developed with the following technologies below:
 
 ## TESTING
 -`npm run test`
+- Note: If you are using windows, in the package.json, change the script `"test": "SET ENV=test&& db-migrate -e test up && npm run testJB && db-migrate -e test reset"` to run the test db

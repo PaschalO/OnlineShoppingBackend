@@ -8,7 +8,7 @@ const store: UserStore = new UserStore();
  *  USER MODEL TEST
  *
  * */
-describe("User Model", () => {
+describe("User Model", (): void => {
 	let newUser: User | null;
 
 	beforeEach(async function (): Promise<void> {
@@ -23,22 +23,22 @@ describe("User Model", () => {
 	});
 
 	// test to check the methods are defined
-	describe("should check if the User Model methods are defined", () => {
-		it("should have a getAllUsers method", () => {
+	describe("should check if the User Model methods are defined", (): void => {
+		it("should have a getAllUsers method", (): void => {
 			expect(store.getAllUsers).toBeDefined();
 		});
 
-		it("should have a getUserById method", () => {
+		it("should have a getUserById method", (): void => {
 			expect(store.getUserById).toBeDefined();
 			//console.log('line 39 -- getUserById ***');
 		});
 
-		it("should have a createUser method", () => {
+		it("should have a createUser method", (): void => {
 			expect(store.createUser).toBeDefined();
 		});
 	});
 
-	describe("should check if there a user exist in the database", () => {
+	describe("should check if there a user exist in the database", (): void => {
 		it("should have a list of all users and the length should be greater zero", async function (): Promise<void> {
 			const result: User[] | null = await store.getAllUsers();
 			expect(result).not.toBeNull();
@@ -46,15 +46,15 @@ describe("User Model", () => {
 		});
 	});
 
-	describe("should check if a single user was returned from the database", () => {
-		it("should check that the queried user is returned ", async function () {
+	describe("should check if a single user was returned from the database", (): void => {
+		it("should check that the queried user is returned ", async function (): Promise<void> {
 			// @ts-ignore
 			const userId: number = newUser.id;
 			const result: User | null = await store.getUserById(userId);
 			expect(result).not.toBeNull();
 		});
 
-		it("should check if the properties of the user matches", async function () {
+		it("should check if the properties of the user matches", async function (): Promise<void> {
 			// @ts-ignore
 			const userId: number = newUser.id;
 			const result: User | null = await store.getUserById(userId);
@@ -64,7 +64,7 @@ describe("User Model", () => {
 			expect(result?.email).toEqual(usersData[2]?.email);
 		});
 
-		it("should return null if query a random user that is not in the database", async () => {
+		it("should return null if query a random user that is not in the database", async (): Promise<void> => {
 			const userId: number = 2000;
 			const result: User | null = await store.getUserById(userId);
 			expect(result).toBeNull();
@@ -84,7 +84,7 @@ describe("User Model", () => {
 			expect(result).not.toBeNull();
 		});
 
-		it("should compare the properties between the result and our user in the array to see if they match", async () => {
+		it("should compare the properties between the result and our user in the array to see if they match", async (): Promise<void> => {
 			const user2: User = {
 				firstname: "Allen",
 				lastname: "Abdul",

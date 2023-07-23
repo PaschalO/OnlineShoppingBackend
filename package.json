@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node-dev src/index.js",
-    "test": "set ENV=test&& db-migrate -e test up && npm run testJB && db-migrate -e test reset",
+    "test": "export ENV=test && db-migrate -e test up && npm run testJB && db-migrate -e test reset",
     "tsc": "tsc",
     "serve": "nodemon ./src/index.ts",
     "migrate": "db-migrate up && db-migrate up",

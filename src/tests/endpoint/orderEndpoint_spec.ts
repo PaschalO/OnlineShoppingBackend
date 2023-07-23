@@ -92,8 +92,7 @@ describe("Order endpoint tests", function (): void {
 
 	it("GET /orders/users/:id/:status", async (): Promise<void> => {
 		const response = await request(app)
-			.get(`/orders/${userId}?order=${status}`)
-			//.get(`/orders/users/${userId}/${status}`)
+			.get(`/orders/users/${userId}/${status}`)
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});

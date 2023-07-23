@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const request = require("supertest");
 
-describe("Product endpoint tests", function () {
+describe("Product endpoint tests", function (): void {
 	let id: number;
 	let category: string;
 	let decoded;
@@ -33,7 +33,7 @@ describe("Product endpoint tests", function () {
 		expect(response.status).toEqual(200);
 	});
 
-	it("POST /products - should create a product", async () => {
+	it("POST /products - should create a product", async (): Promise<void> => {
 		const product: Product = productsData[0];
 
 		const response = await request(app)
@@ -47,28 +47,28 @@ describe("Product endpoint tests", function () {
 		category = response.body.category;
 	});
 
-	it("GET /products - should show all products", async () => {
+	it("GET /products - should show all products", async (): Promise<void> => {
 		const response = await request(app)
 			.get("/products")
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});
 
-	it("GET /products/:id - should show a single product", async () => {
+	it("GET /products/:id - should show a single product", async (): Promise<void> => {
 		const response = await request(app)
 			.get(`/products/${id}`)
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});
 
-	it("GET /products/category/:category - should return products that match the category", async () => {
+	it("GET /products/category/:category - should return products that match the category", async (): Promise<void> => {
 		const response = await request(app)
 			.get(`/products/category/${category}`)
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});
 
-	it("DELETE /products/:id - should remove a single product", async () => {
+	it("DELETE /products/:id - should remove a single product", async (): Promise<void> => {
 		const response = await request(app)
 			.delete(`/products/${id}`)
 			.auth(token, { type: "bearer" })

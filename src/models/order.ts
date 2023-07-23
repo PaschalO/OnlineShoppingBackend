@@ -131,6 +131,14 @@ export class OrderStore {
 		}
 	}
 
+	/**
+	 * Changes the status of an existing order
+	 * @async
+	 * @function updateOrderByStatus
+	 * @params {number, string} userId, status
+	 * @returns {Promise<Order | null>} -
+	 */
+
 	async updateOrderByStatus(
 		id: number,
 		status: string

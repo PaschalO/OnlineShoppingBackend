@@ -64,11 +64,8 @@ const showOrderByStatus = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
-	// const productCategory: string = req.query.products as string;
 	const userId: number = parseInt(req.params.id);
-	const status: string = req.query.order as string;
-	//const status: string = req.params.status;
-	console.log(status, 'line 71')
+	const status: string = req.params.status;
 	const order: Order[] | null = await store.getAllOrderByStatus(
 		userId,
 		status

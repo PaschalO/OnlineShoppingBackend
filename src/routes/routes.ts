@@ -39,7 +39,6 @@ const routes = (app: express.Application): void => {
 	// routes for order
 	app.get("/orders", verifyAuthToken, showAllOrders);
 	app.get("/orders/:id", verifyAuthToken, showSingleOrder);
-	//app.get('/orders/:id?order=status', showOrderByStatus);
 	app.get("/orders/users/:id/:status", showOrderByStatus);
 	app.post("/orders", createOrder);
 	app.delete("/orders", deleteOrders);
@@ -50,7 +49,6 @@ const routes = (app: express.Application): void => {
 	app.post("/products", verifyAuthToken, createProduct);
 	app.get("/products", showAllProducts);
 	app.get("/products/:id", showSingleProduct);
-	//app.get('/products?category=:category', showProductsByCategory);
 	app.get("/products/category/:category", showProductsByCategory);
 	app.get(
 		"/products/product/top-five-popular-products",
@@ -59,8 +57,6 @@ const routes = (app: express.Application): void => {
 	app.delete("/products/:id", verifyAuthToken, admin, removeProduct); // admin privileges
 	app.delete("/products", verifyAuthToken, admin, removeAllProducts); // admin privileges
 
-	// products?category=:category
-
 	//routers for users
 	app.post("/users", createUser); // debatable - need to check if this is necessary
 	app.get("/users", verifyAuthToken, admin, showAllUsers); //admin privileges
@@ -68,7 +64,6 @@ const routes = (app: express.Application): void => {
 	app.delete("/users", verifyAuthToken, admin, deleteAllUsers); // admin privileges
 	app.delete("/users/:id", verifyAuthToken, admin, deleteUser); // admin privileges
 	app.post("/auth/users", authenticate);
-
 	//app.put('/users/:id');
 };
 

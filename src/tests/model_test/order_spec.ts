@@ -9,7 +9,7 @@ const store: OrderStore = new OrderStore();
 const userStore: UserStore = new UserStore();
 const productStore: ProductStore = new ProductStore();
 
-describe("Order Model", () => {
+describe("Order Model", (): void => {
 	let newOrder: Order | null;
 	// @ts-ignore
 	let user1, user2, user3;
@@ -50,7 +50,7 @@ describe("Order Model", () => {
 			},
 			{
 				// @ts-ignore
-				user_id: user2.id,
+				user_id: user1.id,
 				// @ts-ignore
 				product_id: product2.id,
 				order_status: "Completed",
@@ -135,20 +135,20 @@ describe("Order Model", () => {
 	});
 
 	describe("should check that Order Model methods are defined", (): void => {
-		it("should have a getAllOrders method", () => {
+		it("should have a getAllOrders method", (): void => {
 			expect(store.getAllOrders).toBeDefined();
 		});
 
-		it("should have a getProductById method", () => {
+		it("should have a getProductById method", (): void => {
 			expect(store.getOrderByUserId).toBeDefined();
 		});
 
-		it("should have a getAllOrderByStatus method", () => {
+		it("should have a getAllOrderByStatus method", (): void => {
 			expect(store.getAllOrderByStatus).toBeDefined();
 		});
 	});
 
-	describe("should return a list of all orders", () => {
+	describe("should return a list of all orders", (): void => {
 		it("should check if the order array is not empty", async (): Promise<void> => {
 			const result: Order[] | null = await store.getAllOrders();
 			expect(result).not.toBeNull();
@@ -176,7 +176,7 @@ describe("Order Model", () => {
 			const status: string = "Completed";
 			const pattern: RegExp = /completed/i;
 			// @ts-ignore
-			const userId: number = user2.id;
+			const userId: number = user1.id;
 			const result: Order[] | null = await store.getAllOrderByStatus(
 				userId,
 				status
@@ -191,13 +191,13 @@ describe("Order Model", () => {
 	});
 
 	describe("should test for 5 popular products", () => {
-		it("should return an array of top 5 popular products", async () => {
+		it("should return an array of top 5 popular products", async (): Promise<void> => {
 			const result: Product[] | null =
 				await productStore.getTopFivePopularProducts();
 			// The below console.log will print out the top 5 popular products. I am unsure how to test it
 			//console.log(result);
 		});
-		it("should have 5 products in the array", async () => {
+		it("should have 5 products in the array", async (): Promise<void> => {
 			const result: Product[] | null =
 				await productStore.getTopFivePopularProducts();
 			expect(result?.length).toEqual(5);

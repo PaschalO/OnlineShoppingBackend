@@ -5,7 +5,7 @@ import { usersData } from "../../Data/userData";
 
 const store: ProductStore = new ProductStore();
 
-describe("Products Model", () => {
+describe("Products Model", (): void => {
 	let newProduct: Product | null;
 	let productId: number;
 	beforeEach(async (): Promise<void> => {
@@ -15,36 +15,35 @@ describe("Products Model", () => {
 	});
 
 	afterEach(async (): Promise<void> => {
-		//console.log('line 27 --  afterEach')
 		await store.deleteProducts();
 		productId = 0;
 		newProduct = null;
 	});
 
-	describe("should check if the product methods are defined", () => {
+	describe("should check if the product methods are defined", (): void => {
 		// test to check the methods are defined
-		it("should have a getAllProducts method", () => {
+		it("should have a getAllProducts method", (): void => {
 			expect(store.getAllProducts).toBeDefined();
 		});
 
-		it("should have a getProductById method", () => {
+		it("should have a getProductById method", (): void => {
 			expect(store.getProductById).toBeDefined();
 		});
 
-		it("should have a getProductByCategory method", () => {
+		it("should have a getProductByCategory method", (): void => {
 			expect(store.getProductByCategory).toBeDefined();
 		});
 
-		it("should have a getTopFivePopularProduct method", () => {
+		it("should have a getTopFivePopularProduct method", (): void => {
 			expect(store.getTopFivePopularProducts).toBeDefined();
 		});
 
-		it("should have a create product method", () => {
+		it("should have a create product method", (): void => {
 			expect(store.createProduct).toBeDefined();
 		});
 	});
 
-	describe("should check if there a product exist in the database", () => {
+	describe("should check if there a product exist in the database", (): void => {
 		it("should check if the product array is not empty", async (): Promise<void> => {
 			const result: Product[] | null = await store.getAllProducts();
 			expect(result).not.toBeNull();
@@ -52,8 +51,8 @@ describe("Products Model", () => {
 		});
 	});
 
-	describe("should return a product with a given ID", () => {
-		it("should check that the requested product that exist in the db is not null", async () => {
+	describe("should return a product with a given ID", (): void => {
+		it("should check that the requested product that exist in the db is not null", async (): Promise<void> => {
 			// @ts-ignore
 			productId = newProduct.id;
 			const result: Product | null = await store.getProductById(
@@ -62,7 +61,7 @@ describe("Products Model", () => {
 			expect(result).not.toBeNull();
 		});
 
-		it("it should check if the product properties matches", async () => {
+		it("it should check if the product properties matches", async (): Promise<void> => {
 			// @ts-ignore
 			productId = newProduct.id;
 			const productArrayLength = productsData.length - 1;
@@ -92,8 +91,8 @@ describe("Products Model", () => {
 		});
 	});
 
-	describe("should return products by category", () => {
-		it("should return product a product in the db with given category", async () => {
+	describe("should return products by category", (): void => {
+		it("should return product a product in the db with given category", async (): Promise<void> => {
 			const category: string = "Electronics";
 			const result: Product[] | null = await store.getProductByCategory(
 				category
@@ -105,7 +104,7 @@ describe("Products Model", () => {
 			}
 		});
 
-		it("should return null if the category is not in db", async () => {
+		it("should return null if the category is not in db", async (): Promise<void> => {
 			const category: string = "Flectronics";
 			const result: Product[] | null = await store.getProductByCategory(
 				category
