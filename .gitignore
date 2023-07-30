@@ -3406,3 +3406,4 @@
 /node_modules/.package-lock.json
 /file.txt
 /.eslintignore
+!/src/models/orderItem.ts

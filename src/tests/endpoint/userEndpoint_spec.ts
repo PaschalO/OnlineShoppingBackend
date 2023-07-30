@@ -11,7 +11,7 @@ describe("User endpoint tests", function (): void {
 	let decoded;
 	let token: string;
 
-	it("POST /users - should create a user", async function (): Promise<void> {
+	it("POST /users - should create a user. If successful returns a status code of 200", async function (): Promise<void> {
 		user = usersData[0];
 		const response = await request(app)
 			.post("/users")
@@ -29,7 +29,7 @@ describe("User endpoint tests", function (): void {
 		id = decoded.id;
 	});
 
-	it("GET /users - should show all users", async (): Promise<void> => {
+	it("GET /users - should show all users. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
 			.get("/users")
 			.auth(token, { type: "bearer" })
@@ -37,7 +37,7 @@ describe("User endpoint tests", function (): void {
 		expect(response.status).toEqual(200);
 	});
 
-	it("GET /user/:id - should show a user", async (): Promise<void> => {
+	it("GET /user/:id - should show a user. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
 			.get(`/users/${id}`)
 			.auth(token, { type: "bearer" })
@@ -45,7 +45,7 @@ describe("User endpoint tests", function (): void {
 		expect(response.status).toEqual(200);
 	});
 
-	it("DELETE /user/:id - should delete a user", async (): Promise<void> => {
+	it("DELETE /user/:id - should delete a user. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
 			.delete(`/users/${id}`)
 			.auth(token, { type: "bearer" })

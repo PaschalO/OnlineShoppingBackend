@@ -126,7 +126,8 @@ export class ProductStore {
 		try {
 			const connection = await Client.connect();
 			const sql =
-				"SELECT products.name, SUM(products.price) as price, order_status, order_quantity FROM products INNER JOIN orders o on products.id = o.product_id WHERE o.order_status=($1) GROUP BY products.name, order_status, order_quantity ORDER BY SUM(order_quantity) DESC LIMIT 5";
+				//"SELECT products.name, SUM(products.price) as price, order_status, order_quantity FROM products INNER JOIN orders o on products.id = o.product_id INNER JOIN order_products oi on o.id = oi.order_id  WHERE o.order_status=($1) GROUP BY products.name, order_status, order_quantity ORDER BY SUM(order_quantity) DESC LIMIT 5";
+				"SELECT p.name, SUM(p.price) as price, order_status, order_quantity FROM products p INNER JOIN order_products op on p.id = op.product_id INNER JOIN orders o on o.id = op.order_id WHERE o.order_status=($1) GROUP BY p.name, order_status, order_quantity ORDER BY SUM(order_quantity) DESC LIMIT 5";
 			const result = await connection.query(sql, ["Completed"]);
 			connection.release();
 

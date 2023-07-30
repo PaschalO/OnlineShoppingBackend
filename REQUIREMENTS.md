@@ -24,6 +24,10 @@ These are the notes from a meeting with the frontend developer that describe wha
 - [OPTIONAL] Completed Orders by user (args: user id)[token required] `/orders/users/:id/:status` [POST]
 - showAllOrders [token required] - `/orders` [GET]
 
+#### Order_Products
+- addProductOrder `/orders/quantity` [POST]
+
+
 ## Data Shapes
 #### Product
 -  id [SERIAL PRIMARY KEY]

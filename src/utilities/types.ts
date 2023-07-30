@@ -25,7 +25,11 @@ export type Product = {
 export type Order = {
 	id?: number;
 	user_id: number;
+	order_status: string;
+};
+
+export type OrderProduct = {
+	order_id: number;
 	product_id: number;
 	order_quantity: number;
-	order_status: string;
 };

@@ -26,10 +26,18 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS orders (
     id  SERIAL PRIMARY KEY,
     user_id INTEGER,
-    product_id INTEGER,
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
     order_status CHAR(25) NOT NULL,
+    created_at TIMESTAMP,
+    modified_at TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS order_products (
+    order_id INTEGER,
+    product_id INTEGER,
+    PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id),
     order_quantity INTEGER,
     created_at TIMESTAMP,
     modified_at TIMESTAMP

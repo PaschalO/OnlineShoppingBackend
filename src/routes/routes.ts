@@ -24,6 +24,7 @@ import {
 } from "../controllers/product";
 
 import {
+	addProduct,
 	createOrder,
 	deleteOrders,
 	showAllOrders,
@@ -42,6 +43,7 @@ const routes = (app: express.Application): void => {
 	app.get("/orders/users/:id/:status", showOrderByStatus);
 	app.post("/orders", createOrder);
 	app.delete("/orders", deleteOrders);
+	app.post("/orders/quantity", addProduct);
 	//app.put('/orders/:id/status/');
 	//app.put('/orders/:id/quantity');
 

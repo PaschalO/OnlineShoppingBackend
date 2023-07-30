@@ -1,4 +1,4 @@
-import { Order, Product, User } from "../../utilities/types";
+import { Order, OrderProduct, Product, User } from "../../utilities/types";
 import { OrderStore } from "../../models/order";
 import { usersData } from "../../Data/userData";
 import { productsData } from "../../Data/productData";
@@ -11,6 +11,7 @@ const productStore: ProductStore = new ProductStore();
 
 describe("Order Model", (): void => {
 	let newOrder: Order | null;
+	let addProductToOrder;
 	// @ts-ignore
 	let user1, user2, user3;
 	let product1,
@@ -21,6 +22,7 @@ describe("Order Model", (): void => {
 		product6,
 		product7,
 		product8;
+	let orders = {};
 
 	beforeAll(async (): Promise<void> => {
 		// creating the 3 users
@@ -44,82 +46,118 @@ describe("Order Model", (): void => {
 				// @ts-ignore
 				user_id: user1.id,
 				// @ts-ignore
+				order_status: "Completed"
+			},
+			{
+				// @ts-ignore
+				user_id: user1.id,
+				// @ts-ignore
+				order_status: "Completed"
+			},
+			{
+				// @ts-ignore
+				user_id: user3.id,
+				// @ts-ignore
+				order_status: "Completed"
+			},
+			{
+				// @ts-ignore
+				user_id: user2.id,
+				// @ts-ignore
+				order_status: "Completed"
+			},
+			{
+				// @ts-ignore
+				user_id: user2.id,
+				// @ts-ignore
+				order_status: "Completed"
+			},
+			{
+				// @ts-ignore
+				user_id: user3.id,
+				// @ts-ignore
+				order_status: "Completed"
+			},
+			{
+				// @ts-ignore
+				user_id: user3.id,
+				// @ts-ignore
+				order_status: "Completed"
+			},
+			{
+				// @ts-ignore
+				user_id: user1.id,
+				// @ts-ignore
+				order_status: "Completed"
+			},
+			{
+				// @ts-ignore
+				user_id: user2.id,
+				// @ts-ignore
+				order_status: "Completed"
+			}
+		];
+
+		// extracting the order id into orders variable object
+		for (let i = 0; i < ordersData.length; i++) {
+			newOrder = await store.createOrder(ordersData[i]);
+			// @ts-ignore
+			orders[`order${i}`] = newOrder?.id;
+		}
+
+		const addProductOrder: OrderProduct[] = [
+			{
+				// @ts-ignore
+				order_id: orders.order1,
+				// @ts-ignore
 				product_id: product1.id,
-				order_status: "Completed",
 				order_quantity: 3
 			},
 			{
 				// @ts-ignore
-				user_id: user1.id,
+				order_id: orders.order2,
 				// @ts-ignore
 				product_id: product2.id,
-				order_status: "Completed",
 				order_quantity: 4
 			},
 			{
 				// @ts-ignore
-				user_id: user3.id,
+				order_id: orders.order3,
 				// @ts-ignore
 				product_id: product3.id,
-				order_status: "Completed",
 				order_quantity: 1
 			},
 			{
 				// @ts-ignore
-				user_id: user2.id,
-				// @ts-ignore
-				product_id: product1.id,
-				order_status: "Completed",
-				order_quantity: 2
-			},
-			{
-				// @ts-ignore
-				user_id: user2.id,
-				// @ts-ignore
-				product_id: product4.id,
-				order_status: "Completed",
-				order_quantity: 10
-			},
-			{
-				// @ts-ignore
-				user_id: user3.id,
-				// @ts-ignore
-				product_id: product5.id,
-				order_status: "Complete",
-				order_quantity: 1
-			},
-			{
-				// @ts-ignore
-				user_id: user3.id,
+				order_id: orders.order4,
 				// @ts-ignore
 				product_id: product6.id,
-				order_status: "Completed",
 				order_quantity: 5
 			},
 			{
 				// @ts-ignore
-				user_id: user1.id,
+				order_id: orders.order5,
 				// @ts-ignore
 				product_id: product7.id,
-				order_status: "Completed",
 				order_quantity: 1
 			},
 			{
 				// @ts-ignore
-				user_id: user2.id,
+				order_id: orders.order6,
 				// @ts-ignore
 				product_id: product8.id,
-				order_status: "Completed",
 				order_quantity: 6
 			}
 		];
 
-		for (const order of ordersData) {
-			newOrder = await store.createOrder(order);
+		for (const addProduct of addProductOrder) {
+			addProductToOrder = await store.addProductOrder(addProduct);
 		}
 	});
 
 	afterAll(async (): Promise<void> => {
+		// cleanup
+		await store.deleteAllOrderProduct();
 		await store.deleteOrders();
 		await userStore.deleteUsers();
 		await productStore.deleteProducts();
@@ -192,10 +230,10 @@ describe("Order Model", (): void => {
 
 	describe("should test for 5 popular products", () => {
 		it("should return an array of top 5 popular products", async (): Promise<void> => {
-			const result: Product[] | null =
+			const result2: Product[] | null =
 				await productStore.getTopFivePopularProducts();
 			// The below console.log will print out the top 5 popular products. I am unsure how to test it
-			//console.log(result);
+			//console.log(result2, 'line 189');
 		});
 		it("should have 5 products in the array", async (): Promise<void> => {
 			const result: Product[] | null =

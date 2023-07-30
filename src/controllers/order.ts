@@ -1,6 +1,6 @@
 import { OrderStore } from "../models/order";
 import { Request, Response } from "express";
-import { Order } from "../utilities/types";
+import { Order, OrderProduct } from "../utilities/types";
 
 const store: OrderStore = new OrderStore();
 
@@ -16,9 +16,7 @@ const createOrder = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const order: Order = {
 			user_id: req.body.user_id,
-			product_id: req.body.product_id,
-			order_status: req.body.order_status.toLowerCase(),
-			order_quantity: req.body.order_quantity
+			order_status: req.body.order_status.toLowerCase()
 		};
 
 		const newOrder: Order | null = await store.createOrder(order);
@@ -85,10 +83,29 @@ const deleteOrders = async (req: Request, res: Response): Promise<void> => {
 	res.status(200).json(order);
 };
 
+const addProduct = async (req: Request, res: Response): Promise<void> => {
+	try {
+		const orderProduct: OrderProduct = {
+			order_id: req.body.order_id,
+			product_id: req.body.product_id,
+			order_quantity: req.body.order_quantity
+		};
+
+		const newAddProductOrder: OrderProduct | null =
+			await store.addProductOrder(orderProduct);
+		res.status(200).json(newAddProductOrder);
+	} catch (error) {
+		res.status(400).json({
+			message: `cannot create an orderItem	 ${error}`
+		});
+	}
+};
+
 export {
 	showAllOrders,
 	showSingleOrder,
 	showOrderByStatus,
 	createOrder,
-	deleteOrders
+	deleteOrders,
+	addProduct
 };

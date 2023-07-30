@@ -33,7 +33,7 @@ describe("Product endpoint tests", function (): void {
 		expect(response.status).toEqual(200);
 	});
 
-	it("POST /products - should create a product", async (): Promise<void> => {
+	it("POST /products - should create a product. If successful returns a status code of 200", async (): Promise<void> => {
 		const product: Product = productsData[0];
 
 		const response = await request(app)
@@ -47,28 +47,28 @@ describe("Product endpoint tests", function (): void {
 		category = response.body.category;
 	});
 
-	it("GET /products - should show all products", async (): Promise<void> => {
+	it("GET /products - should show all products. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
 			.get("/products")
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});
 
-	it("GET /products/:id - should show a single product", async (): Promise<void> => {
+	it("GET /products/:id - should show a single product. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
 			.get(`/products/${id}`)
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});
 
-	it("GET /products/category/:category - should return products that match the category", async (): Promise<void> => {
+	it("GET /products/category/:category - should return products that match the category. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
 			.get(`/products/category/${category}`)
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});
 
-	it("DELETE /products/:id - should remove a single product", async (): Promise<void> => {
+	it("DELETE /products/:id - should remove a single product. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
 			.delete(`/products/${id}`)
 			.auth(token, { type: "bearer" })
