@@ -24,7 +24,6 @@ import {
 } from "../controllers/product";
 
 import {
-	addProduct,
 	createOrder,
 	deleteOrders,
 	showAllOrders,
@@ -35,6 +34,7 @@ import {
 import { authenticate } from "../services/authentication";
 import { verifyAuthToken } from "../services/verfiyToken";
 import { admin } from "../services/admin";
+import {addProduct} from "../services/orderProduct";
 
 const routes = (app: express.Application): void => {
 	// routes for order

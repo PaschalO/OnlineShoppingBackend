@@ -1,6 +1,7 @@
 import { OrderStore } from "../models/order";
 import { Request, Response } from "express";
-import { Order, OrderProduct } from "../utilities/types";
+import {Order, OrderProduct} from "../utilities/types";
+import {OrderProductStore} from "../services/orderProduct";
 
 const store: OrderStore = new OrderStore();
 
@@ -34,8 +35,17 @@ const createOrder = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const showAllOrders = async (req: Request, res: Response): Promise<void> => {
-	const orders: Order[] | null = await store.getAllOrders();
-	res.status(200).json(orders);
+	try {
+		const orders: Order[] | null = await store.getAllOrders();
+		res.status(200).json(orders);
+	}
+
+	catch (error) {
+		res.status(400).json({
+			message: `unable to show all orders ${error}`
+		});
+	}
+
 };
 
 /**
@@ -46,9 +56,17 @@ const showAllOrders = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const showSingleOrder = async (req: Request, res: Response): Promise<void> => {
-	const userId: number = parseInt(req.params.id);
-	const order: Order | null = await store.getOrderByUserId(userId);
-	res.status(200).json(order);
+	try {
+		const userId: number = parseInt(req.params.id);
+		const order: Order | null = await store.getOrderByUserId(userId);
+		res.status(200).json(order);
+	}
+	catch (error) {
+		res.status(400).json({
+			message: `cannot find the order ${error}`
+		});
+	}
+
 };
 
 /**
@@ -62,13 +80,20 @@ const showOrderByStatus = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
-	const userId: number = parseInt(req.params.id);
-	const status: string = req.params.status;
-	const order: Order[] | null = await store.getAllOrderByStatus(
-		userId,
-		status
-	);
-	res.status(200).json(order);
+	try {
+		const userId: number = parseInt(req.params.id);
+		const status: string = req.params.status;
+		const order: Order[] | null = await store.getAllOrderByStatus(
+			userId,
+			status
+		);
+		res.status(200).json(order);
+	}
+	catch (error) {
+		res.status(400).json({
+			message: `unable to find the status for this order ${error}`
+		});
+	}
 };
 
 /**
@@ -79,26 +104,16 @@ const showOrderByStatus = async (
  * @returns {Promise<void>}
  */
 const deleteOrders = async (req: Request, res: Response): Promise<void> => {
-	const order: [] = await store.deleteOrders();
-	res.status(200).json(order);
-};
-
-const addProduct = async (req: Request, res: Response): Promise<void> => {
 	try {
-		const orderProduct: OrderProduct = {
-			order_id: req.body.order_id,
-			product_id: req.body.product_id,
-			order_quantity: req.body.order_quantity
-		};
-
-		const newAddProductOrder: OrderProduct | null =
-			await store.addProductOrder(orderProduct);
-		res.status(200).json(newAddProductOrder);
-	} catch (error) {
+		const order: [] = await store.deleteOrders();
+		res.status(200).send("success");
+	}
+	catch (error) {
 		res.status(400).json({
-			message: `cannot create an orderItem	 ${error}`
+			message: `unable to delete all orders ${error}`
 		});
 	}
+
 };
 
 export {
@@ -106,6 +121,5 @@ export {
 	showSingleOrder,
 	showOrderByStatus,
 	createOrder,
-	deleteOrders,
-	addProduct
+	deleteOrders
 };

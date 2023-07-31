@@ -40,8 +40,14 @@ const createProduct = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const showAllProducts = async (req: Request, res: Response): Promise<void> => {
-	const products: Product[] | null = await store.getAllProducts();
-	res.status(200).json(products);
+	try {
+		const products: Product[] | null = await store.getAllProducts();
+		res.status(200).json(products);
+	}
+
+	catch (error) {
+		res.status(400).json({message: `unable to show all products ${error}`})
+	}
 };
 
 /**
@@ -55,9 +61,14 @@ const showSingleProduct = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
-	const productId: number = parseInt(req.params.id);
-	const product: Product | null = await store.getProductById(productId);
-	res.status(200).json(product);
+	try {
+		const productId: number = parseInt(req.params.id);
+		const product: Product | null = await store.getProductById(productId);
+		res.status(200).json(product);
+	}
+	catch (error) {
+		res.status(400).json({message: `unable to show product ${error}`})
+	}
 };
 
 /**
@@ -71,13 +82,16 @@ const showProductsByCategory = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
-	const productCategory: string = req.params.category;
-	// console.log(productCategory, 'line 40 from controller');
-	const product: Product[] | null = await store.getProductByCategory(
-		productCategory
-	);
-	// console.log(product, 'line 42 from controller');
-	res.status(200).json(product);
+	try {
+		const productCategory: string = req.params.category;
+		const product: Product[] | null = await store.getProductByCategory(
+			productCategory
+		);
+		res.status(200).json(product);
+	}
+	catch (error) {
+		res.status(400).json({message: `unable to filter products by category ${error}`})
+	}
 };
 
 /**
@@ -91,8 +105,13 @@ const showTopFivePopularProducts = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
-	const product: Product[] | null = await store.getTopFivePopularProducts();
-	res.status(200).json(product);
+	try {
+		const product: Product[] | null = await store.getTopFivePopularProducts();
+		res.status(200).json(product);
+	}
+	catch (error) {
+		res.status(400).json({message: `unable to display the top 5 popular products ${error}`})
+	}
 };
 
 /**
@@ -103,9 +122,15 @@ const showTopFivePopularProducts = async (
  * @returns {Promise<void>}
  */
 const removeProduct = async (req: Request, res: Response): Promise<void> => {
-	const productId: number = parseInt(req.params.id);
-	await store.deleteProduct(productId);
-	res.status(200).send("success");
+	try {
+		const productId: number = parseInt(req.params.id);
+		await store.deleteProduct(productId);
+		res.status(200).send("success");
+	}
+	catch (error) {
+		res.status(400).json({message: `unable to delete the product ${error}`})
+	}
+
 };
 
 /**
@@ -119,8 +144,14 @@ const removeAllProducts = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
-	await store.deleteProducts();
-	res.status(200).send("success");
+	try {
+		await store.deleteProducts();
+		res.status(200).send("success");
+	}
+
+	catch (error) {
+		res.status(400).json({message: `unable to delete all products ${error}`})
+	}
 };
 
 export {

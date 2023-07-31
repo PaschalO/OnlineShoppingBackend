@@ -123,61 +123,12 @@ export class OrderStore {
 	}
 
 	/**
-	 * Order_Product Model - Adds the product to an order and the quantity
-	 * @async
-	 * @function addProductOrder
-	 * @params {OrderProduct} orderItem
-	 * @returns {Promise<Order | null>} -
-	 */
-	async addProductOrder(
-		orderItem: OrderProduct
-	): Promise<OrderProduct | null> {
-		const connection = await Client.connect();
-
-		try {
-			const sql =
-				"INSERT INTO order_products (order_id, product_id, order_quantity, created_at, modified_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *";
-			const result = await connection.query(sql, [
-				orderItem.order_id,
-				orderItem.product_id,
-				orderItem.order_quantity
-			]);
-			connection.release();
-			if (result.rows.length > 0) return result.rows[0];
-
-			return null;
-		} catch (error) {
-			throw new Error(
-				`Could insert an orderItem ${orderItem.order_id}, ${orderItem.product_id}. ${orderItem.order_quantity}: Error - ${error}`
-			);
-		}
-	}
-	/**
-	 * Order_Product Model - Deletes all data in the order_product model
-	 * @async
-	 * @function deleteAllOrderProduct
-	 * @returns {Promise<[]} - Returns an empty list after deletion
-	 */
-	async deleteAllOrderProduct(): Promise<[]> {
-		try {
-			const connection = await Client.connect();
-			const sql = "DELETE FROM order_products";
-			await connection.query(sql);
-			connection.release();
-			return [];
-		} catch (error) {
-			throw new Error(`Could not delete all orderItems`);
-		}
-	}
-
-	/**
 	 * Changes the status of an existing order
 	 * @async
 	 * @function updateOrderByStatus
 	 * @params {number, string} userId, status
 	 * @returns {Promise<Order | null>} -
 	 */
-
 	async updateOrderByStatus(
 		id: number,
 		status: string

@@ -6,6 +6,7 @@ import { productsData } from "../../Data/productData";
 import { UserStore } from "../../models/user";
 import { ProductStore } from "../../models/product";
 import { OrderStore } from "../../models/order";
+import {OrderProductStore} from "../../services/orderProduct";
 const request = require("supertest");
 const jwt = require("jsonwebtoken");
 
@@ -46,10 +47,13 @@ describe("Order endpoint tests", function (): void {
 	});
 
 	afterAll(async (): Promise<void> => {
+		// instantiating all classes
 		const userStore: UserStore = new UserStore();
 		const productStore: ProductStore = new ProductStore();
 		const store: OrderStore = new OrderStore();
-		await store.deleteAllOrderProduct();
+		const orderProductStore: OrderProductStore =  new OrderProductStore();
+
+		await orderProductStore.deleteAllOrderProduct();
 		await store.deleteOrders();
 		await userStore.deleteUsers();
 		await productStore.deleteProducts();

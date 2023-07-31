@@ -70,8 +70,13 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const showAllUsers = async (req: Request, res: Response): Promise<void> => {
-	const users: User[] | null = await store.getAllUsers();
-	res.status(200).json(users);
+	try {
+		const users: User[] | null = await store.getAllUsers();
+		res.status(200).json(users);
+	}
+	catch (error) {
+		res.status(400).json({message: `unable to show all users ${error}`})
+	}
 };
 
 /**
@@ -82,9 +87,14 @@ const showAllUsers = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const showSingleUser = async (req: Request, res: Response): Promise<void> => {
-	const userId: number = parseInt(req.params.id);
-	const user: User | null = await store.getUserById(userId);
-	res.status(200).json(user);
+	try {
+		const userId: number = parseInt(req.params.id);
+		const user: User | null = await store.getUserById(userId);
+		res.status(200).json(user);
+	}
+	catch (error) {
+		res.status(400).json({message: `unable to show the user ${error}`});
+	}
 };
 
 /**
@@ -95,9 +105,15 @@ const showSingleUser = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const deleteUser = async (req: Request, res: Response): Promise<void> => {
-	const userId: number = parseInt(req.params.id);
-	await store.deleteUserById(userId);
-	res.status(200).send("success");
+	try {
+		const userId: number = parseInt(req.params.id);
+		await store.deleteUserById(userId);
+		res.status(200).send("success");
+	}
+	catch (error) {
+		res.status(400).json({message: `unable to delete user ${error}`});
+	}
+
 };
 
 /**
@@ -108,8 +124,14 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
  * @returns {Promise<void>}
  */
 const deleteAllUsers = async (req: Request, res: Response): Promise<void> => {
-	const result = await store.deleteUsers();
-	res.status(200).send(result);
+	try {
+		await store.deleteUsers();
+		res.status(200).send("success");
+	}
+	catch (error) {
+		res.status(400).json({message: `unable to delete all users ${error}`});
+	}
+
 };
 
 export { showAllUsers, showSingleUser, createUser, deleteAllUsers, deleteUser };

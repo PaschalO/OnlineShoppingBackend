@@ -4,10 +4,12 @@ import { usersData } from "../../Data/userData";
 import { productsData } from "../../Data/productData";
 import { UserStore } from "../../models/user";
 import { ProductStore } from "../../models/product";
+import {OrderProductStore} from "../../services/orderProduct";
 
 const store: OrderStore = new OrderStore();
 const userStore: UserStore = new UserStore();
 const productStore: ProductStore = new ProductStore();
+const orderProductStore: OrderProductStore = new OrderProductStore();
 
 describe("Order Model", (): void => {
 	let newOrder: Order | null;
@@ -151,13 +153,13 @@ describe("Order Model", (): void => {
 		];
 
 		for (const addProduct of addProductOrder) {
-			addProductToOrder = await store.addProductOrder(addProduct);
+			addProductToOrder = await orderProductStore.addProductOrder(addProduct);
 		}
 	});
 
 	afterAll(async (): Promise<void> => {
 		// cleanup
-		await store.deleteAllOrderProduct();
+		await orderProductStore.deleteAllOrderProduct();
 		await store.deleteOrders();
 		await userStore.deleteUsers();
 		await productStore.deleteProducts();
