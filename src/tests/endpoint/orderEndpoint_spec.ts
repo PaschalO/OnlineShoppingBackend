@@ -59,7 +59,7 @@ describe("Order endpoint tests", function (): void {
 		await productStore.deleteProducts();
 	});
 
-	describe('', () => {
+	describe("", () => {
 		const order: Order = {
 			user_id: userId,
 			order_status: "complete"
@@ -82,8 +82,7 @@ describe("Order endpoint tests", function (): void {
 				.set("Accept", "application/json");
 			expect(response.status).toEqual(403);
 		});
-	})
-
+	});
 
 	it("GET /orders - should show all orders. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)

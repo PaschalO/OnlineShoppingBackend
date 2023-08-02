@@ -12,4 +12,3 @@ export const {
 	SALT_ROUNDS,
 	TOKEN_SECRET
 } = process.env;
-

@@ -6,7 +6,11 @@ const cors = require("cors");
 const app: express.Application = express();
 const port = 3000;
 
-const corsOptions: { origin: string; methods: string, optionsSuccessStatus: number } = {
+const corsOptions: {
+	origin: string;
+	methods: string;
+	optionsSuccessStatus: number;
+} = {
 	origin: `http://localhost:${port}`,
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	optionsSuccessStatus: 200

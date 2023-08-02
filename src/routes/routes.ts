@@ -58,7 +58,6 @@ const routes = (app: express.Application): void => {
 	app.get("/users/:id", verifyAuthToken, showSingleUser);
 	app.delete("/users/:id", verifyAuthToken, admin, deleteUser); // admin privileges
 	app.post("/auth/users", authenticate);
-
 };
 
 export default routes;

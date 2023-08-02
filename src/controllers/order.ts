@@ -1,7 +1,6 @@
 import { OrderStore } from "../models/order";
 import { Request, Response } from "express";
-import { Order, OrderProduct } from "../utilities/types";
-import { OrderProductStore } from "../services/orderProduct";
+import { Order } from "../utilities/types";
 
 const store: OrderStore = new OrderStore();
 
@@ -90,9 +89,4 @@ const showOrderByStatus = async (
 	}
 };
 
-export {
-	showAllOrders,
-	showSingleOrder,
-	showOrderByStatus,
-	createOrder
-};
+export { showAllOrders, showSingleOrder, showOrderByStatus, createOrder };

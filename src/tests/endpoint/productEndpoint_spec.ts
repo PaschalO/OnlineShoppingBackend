@@ -12,7 +12,7 @@ describe("Product endpoint tests", function (): void {
 	let category: string;
 	let decoded;
 	let token: string;
-	let userId: number
+	let userId: number;
 
 	beforeEach(async (): Promise<void> => {
 		const user: User = usersData[0];
@@ -35,10 +35,9 @@ describe("Product endpoint tests", function (): void {
 		expect(response.status).toEqual(200);
 	});
 
-	describe('POST /products', () => {
+	describe("POST /products", () => {
 		const product: Product = productsData[0];
 		it("should create a product. If successful returns a status code of 200", async (): Promise<void> => {
-
 			const response = await request(app)
 				.post("/products")
 				.auth(token, { type: "bearer" })
@@ -57,9 +56,7 @@ describe("Product endpoint tests", function (): void {
 				.set("Accept", "application/json");
 			expect(response.status).toEqual(403);
 		});
-	})
-
-
+	});
 
 	it("GET /products - should show all products. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
