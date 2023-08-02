@@ -9,13 +9,11 @@ import {
 	showAllUsers,
 	showSingleUser,
 	createUser,
-	deleteAllUsers,
 	deleteUser
 } from "../controllers/user";
 
 import {
 	createProduct,
-	removeAllProducts,
 	removeProduct,
 	showAllProducts,
 	showProductsByCategory,
@@ -25,7 +23,6 @@ import {
 
 import {
 	createOrder,
-	deleteOrders,
 	showAllOrders,
 	showOrderByStatus,
 	showSingleOrder
@@ -34,18 +31,15 @@ import {
 import { authenticate } from "../services/authentication";
 import { verifyAuthToken } from "../services/verfiyToken";
 import { admin } from "../services/admin";
-import {addProduct} from "../services/orderProduct";
+import { addProduct } from "../services/orderProduct";
 
 const routes = (app: express.Application): void => {
 	// routes for order
-	app.get("/orders", verifyAuthToken, showAllOrders);
+	app.get("/orders", verifyAuthToken, admin, showAllOrders); // admin privileges
 	app.get("/orders/:id", verifyAuthToken, showSingleOrder);
-	app.get("/orders/users/:id/:status", showOrderByStatus);
-	app.post("/orders", createOrder);
-	app.delete("/orders", deleteOrders);
-	app.post("/orders/quantity", addProduct);
-	//app.put('/orders/:id/status/');
-	//app.put('/orders/:id/quantity');
+	app.get("/orders/users/:id/:status", verifyAuthToken, showOrderByStatus);
+	app.post("/orders", verifyAuthToken, admin, createOrder); // admin privileges
+	app.post("/orders/quantity", verifyAuthToken, addProduct);
 
 	//routes for products
 	app.post("/products", verifyAuthToken, createProduct);
@@ -57,16 +51,14 @@ const routes = (app: express.Application): void => {
 		showTopFivePopularProducts
 	);
 	app.delete("/products/:id", verifyAuthToken, admin, removeProduct); // admin privileges
-	app.delete("/products", verifyAuthToken, admin, removeAllProducts); // admin privileges
 
 	//routers for users
 	app.post("/users", createUser); // debatable - need to check if this is necessary
 	app.get("/users", verifyAuthToken, admin, showAllUsers); //admin privileges
 	app.get("/users/:id", verifyAuthToken, showSingleUser);
-	app.delete("/users", verifyAuthToken, admin, deleteAllUsers); // admin privileges
 	app.delete("/users/:id", verifyAuthToken, admin, deleteUser); // admin privileges
 	app.post("/auth/users", authenticate);
-	//app.put('/users/:id');
+
 };
 
 export default routes;

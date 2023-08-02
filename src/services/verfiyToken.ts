@@ -24,7 +24,7 @@ const verifyAuthToken = async (
 			res.locals = await jwt.verify(token, TOKEN_SECRET);
 			next();
 		} else {
-			res.status(403).json({ message: "no authorization header" });
+			res.status(403).json({ message: "jwt token required" });
 		}
 	} catch (error) {
 		res.status(403).json({ message: `Invalid Token ${error}` });

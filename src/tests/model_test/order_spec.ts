@@ -4,7 +4,7 @@ import { usersData } from "../../Data/userData";
 import { productsData } from "../../Data/productData";
 import { UserStore } from "../../models/user";
 import { ProductStore } from "../../models/product";
-import {OrderProductStore} from "../../services/orderProduct";
+import { OrderProductStore } from "../../services/orderProduct";
 
 const store: OrderStore = new OrderStore();
 const userStore: UserStore = new UserStore();
@@ -153,7 +153,9 @@ describe("Order Model", (): void => {
 		];
 
 		for (const addProduct of addProductOrder) {
-			addProductToOrder = await orderProductStore.addProductOrder(addProduct);
+			addProductToOrder = await orderProductStore.addProductOrder(
+				addProduct
+			);
 		}
 	});
 

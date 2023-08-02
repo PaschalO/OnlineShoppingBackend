@@ -16,13 +16,13 @@ These are the notes from a meeting with the frontend developer that describe wha
 - showAllUsers [token required] `/users` [GET]
 - showSingleUser [token required] `/users/:id` [GET]
 - createUser - `/users` [POST]
-- deleteAllUsers [token required, admin permission] -`/users` [DELETE]
 - deleteUser [token required, admin permission] - `/users/:id` [DELETE]
 
 #### Orders
 - Current Order by user (args: user id)[token required] `/orders/:id` [GET]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required] `/orders/users/:id/:status` [POST]
+- [OPTIONAL] Completed Orders by user [token required] `/orders/users/:id/:status` [GET]
 - showAllOrders [token required] - `/orders` [GET]
+- createOrder [token required] - `/orders` [POST]
 
 #### Order_Products
 - addProductOrder `/orders/quantity` [POST]

@@ -43,10 +43,10 @@ const showAllProducts = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const products: Product[] | null = await store.getAllProducts();
 		res.status(200).json(products);
-	}
-
-	catch (error) {
-		res.status(400).json({message: `unable to show all products ${error}`})
+	} catch (error) {
+		res.status(400).json({
+			message: `unable to show all products ${error}`
+		});
 	}
 };
 
@@ -65,9 +65,8 @@ const showSingleProduct = async (
 		const productId: number = parseInt(req.params.id);
 		const product: Product | null = await store.getProductById(productId);
 		res.status(200).json(product);
-	}
-	catch (error) {
-		res.status(400).json({message: `unable to show product ${error}`})
+	} catch (error) {
+		res.status(400).json({ message: `unable to show product ${error}` });
 	}
 };
 
@@ -83,14 +82,15 @@ const showProductsByCategory = async (
 	res: Response
 ): Promise<void> => {
 	try {
-		const productCategory: string = req.params.category;
+		const productCategory: string = req.params.category.toLowerCase();
 		const product: Product[] | null = await store.getProductByCategory(
 			productCategory
 		);
 		res.status(200).json(product);
-	}
-	catch (error) {
-		res.status(400).json({message: `unable to filter products by category ${error}`})
+	} catch (error) {
+		res.status(400).json({
+			message: `unable to filter products by category ${error}`
+		});
 	}
 };
 
@@ -106,11 +106,13 @@ const showTopFivePopularProducts = async (
 	res: Response
 ): Promise<void> => {
 	try {
-		const product: Product[] | null = await store.getTopFivePopularProducts();
+		const product: Product[] | null =
+			await store.getTopFivePopularProducts();
 		res.status(200).json(product);
-	}
-	catch (error) {
-		res.status(400).json({message: `unable to display the top 5 popular products ${error}`})
+	} catch (error) {
+		res.status(400).json({
+			message: `unable to display the top 5 popular products ${error}`
+		});
 	}
 };
 
@@ -126,31 +128,10 @@ const removeProduct = async (req: Request, res: Response): Promise<void> => {
 		const productId: number = parseInt(req.params.id);
 		await store.deleteProduct(productId);
 		res.status(200).send("success");
-	}
-	catch (error) {
-		res.status(400).json({message: `unable to delete the product ${error}`})
-	}
-
-};
-
-/**
- * delete all products from the product db
- * @async
- * @function removeAllProducts
- * @type {req: Request, res: Response}
- * @returns {Promise<void>}
- */
-const removeAllProducts = async (
-	req: Request,
-	res: Response
-): Promise<void> => {
-	try {
-		await store.deleteProducts();
-		res.status(200).send("success");
-	}
-
-	catch (error) {
-		res.status(400).json({message: `unable to delete all products ${error}`})
+	} catch (error) {
+		res.status(400).json({
+			message: `unable to delete the product ${error}`
+		});
 	}
 };
 
@@ -160,6 +141,5 @@ export {
 	showProductsByCategory,
 	showTopFivePopularProducts,
 	removeProduct,
-	createProduct,
-	removeAllProducts
+	createProduct
 };

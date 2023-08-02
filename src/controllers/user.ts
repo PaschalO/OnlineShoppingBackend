@@ -73,9 +73,8 @@ const showAllUsers = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const users: User[] | null = await store.getAllUsers();
 		res.status(200).json(users);
-	}
-	catch (error) {
-		res.status(400).json({message: `unable to show all users ${error}`})
+	} catch (error) {
+		res.status(400).json({ message: `unable to show all users ${error}` });
 	}
 };
 
@@ -91,9 +90,8 @@ const showSingleUser = async (req: Request, res: Response): Promise<void> => {
 		const userId: number = parseInt(req.params.id);
 		const user: User | null = await store.getUserById(userId);
 		res.status(200).json(user);
-	}
-	catch (error) {
-		res.status(400).json({message: `unable to show the user ${error}`});
+	} catch (error) {
+		res.status(400).json({ message: `unable to show the user ${error}` });
 	}
 };
 
@@ -109,29 +107,9 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
 		const userId: number = parseInt(req.params.id);
 		await store.deleteUserById(userId);
 		res.status(200).send("success");
+	} catch (error) {
+		res.status(400).json({ message: `unable to delete user ${error}` });
 	}
-	catch (error) {
-		res.status(400).json({message: `unable to delete user ${error}`});
-	}
-
 };
 
-/**
- * delete all users from the user db
- * @async
- * @function deleteAllUsers
- * @type {req: Request, res: Response}
- * @returns {Promise<void>}
- */
-const deleteAllUsers = async (req: Request, res: Response): Promise<void> => {
-	try {
-		await store.deleteUsers();
-		res.status(200).send("success");
-	}
-	catch (error) {
-		res.status(400).json({message: `unable to delete all users ${error}`});
-	}
-
-};
-
-export { showAllUsers, showSingleUser, createUser, deleteAllUsers, deleteUser };
+export { showAllUsers, showSingleUser, createUser, deleteUser };

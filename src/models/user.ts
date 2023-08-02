@@ -89,7 +89,7 @@ export class UserStore {
 			connection.release();
 			return [];
 		} catch (error) {
-			throw new Error(`Could not delete the user`);
+			throw new Error(`Could not delete the user - ${error}`);
 		}
 	}
 

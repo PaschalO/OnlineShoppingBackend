@@ -17,7 +17,6 @@ import {
 
 let Client!: Pool;
 
-console.log(ENV);
 if (ENV === "test") {
 	Client = new Pool({
 		database: POSTGRES_TEST_DB,
@@ -33,5 +32,5 @@ if (ENV === "dev") {
 		password: POSTGRES_PASSWORD
 	});
 }
-console.log(ENV === "test");
+
 export default Client;

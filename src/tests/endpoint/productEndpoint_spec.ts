@@ -12,6 +12,7 @@ describe("Product endpoint tests", function (): void {
 	let category: string;
 	let decoded;
 	let token: string;
+	let userId: number
 
 	beforeEach(async (): Promise<void> => {
 		const user: User = usersData[0];
@@ -22,30 +23,43 @@ describe("Product endpoint tests", function (): void {
 		expect(response.status).toEqual(200);
 
 		decoded = await jwt.verify(response.body, TOKEN_SECRET);
+		userId = decoded.id;
 		token = response.body;
 	});
 
 	afterEach(async (): Promise<void> => {
 		const response = await request(app)
-			.delete("/users")
+			.delete(`/users/${userId}`)
 			.auth(token, { type: "bearer" })
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});
 
-	it("POST /products - should create a product. If successful returns a status code of 200", async (): Promise<void> => {
+	describe('POST /products', () => {
 		const product: Product = productsData[0];
+		it("should create a product. If successful returns a status code of 200", async (): Promise<void> => {
 
-		const response = await request(app)
-			.post("/products")
-			.auth(token, { type: "bearer" })
-			.send(product)
-			.set("Accept", "application/json");
-		expect(response.status).toEqual(200);
+			const response = await request(app)
+				.post("/products")
+				.auth(token, { type: "bearer" })
+				.send(product)
+				.set("Accept", "application/json");
+			expect(response.status).toEqual(200);
 
-		id = response.body.id;
-		category = response.body.category;
-	});
+			id = response.body.id;
+			category = response.body.category;
+		});
+
+		it("should try to create a product without jwt token return a status code of 403", async (): Promise<void> => {
+			const response = await request(app)
+				.post("/products")
+				.send(product)
+				.set("Accept", "application/json");
+			expect(response.status).toEqual(403);
+		});
+	})
+
+
 
 	it("GET /products - should show all products. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)

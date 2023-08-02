@@ -6,7 +6,7 @@ import { productsData } from "../../Data/productData";
 import { UserStore } from "../../models/user";
 import { ProductStore } from "../../models/product";
 import { OrderStore } from "../../models/order";
-import {OrderProductStore} from "../../services/orderProduct";
+import { OrderProductStore } from "../../services/orderProduct";
 const request = require("supertest");
 const jwt = require("jsonwebtoken");
 
@@ -51,7 +51,7 @@ describe("Order endpoint tests", function (): void {
 		const userStore: UserStore = new UserStore();
 		const productStore: ProductStore = new ProductStore();
 		const store: OrderStore = new OrderStore();
-		const orderProductStore: OrderProductStore =  new OrderProductStore();
+		const orderProductStore: OrderProductStore = new OrderProductStore();
 
 		await orderProductStore.deleteAllOrderProduct();
 		await store.deleteOrders();
@@ -59,20 +59,31 @@ describe("Order endpoint tests", function (): void {
 		await productStore.deleteProducts();
 	});
 
-	it("POST /order - should create an order. If successful returns a status code of 200", async function (): Promise<void> {
+	describe('', () => {
 		const order: Order = {
 			user_id: userId,
 			order_status: "complete"
 		};
+		it("POST /order - should create an order. If successful returns a status code of 200", async function (): Promise<void> {
+			const response = await request(app)
+				.post("/orders")
+				.auth(token, { type: "bearer" })
+				.send(order)
+				.set("Accept", "application/json");
+			expect(response.status).toEqual(200);
+			orderId = response.body.id;
+			status = response.body.order_status;
+		});
 
-		const response = await request(app)
-			.post("/orders")
-			.send(order)
-			.set("Accept", "application/json");
-		expect(response.status).toEqual(200);
-		orderId = response.body.id;
-		status = response.body.order_status;
-	});
+		it("POST /order - should try to create an order without jwt token and return a status code of 403", async function (): Promise<void> {
+			const response = await request(app)
+				.post("/orders")
+				.send(order)
+				.set("Accept", "application/json");
+			expect(response.status).toEqual(403);
+		});
+	})
+
 
 	it("GET /orders - should show all orders. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
@@ -93,6 +104,7 @@ describe("Order endpoint tests", function (): void {
 	it("GET /orders/users/:id/:status - should show the status of an order. If successful returns a status code of 200", async (): Promise<void> => {
 		const response = await request(app)
 			.get(`/orders/users/${userId}/${status}`)
+			.auth(token, { type: "bearer" })
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);
 	});
@@ -105,6 +117,7 @@ describe("Order endpoint tests", function (): void {
 		};
 		const response = await request(app)
 			.post("/orders/quantity")
+			.auth(token, { type: "bearer" })
 			.send(addProductOrder)
 			.set("Accept", "application/json");
 		expect(response.status).toEqual(200);

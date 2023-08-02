@@ -1,7 +1,7 @@
 import { OrderStore } from "../models/order";
 import { Request, Response } from "express";
-import {Order, OrderProduct} from "../utilities/types";
-import {OrderProductStore} from "../services/orderProduct";
+import { Order, OrderProduct } from "../utilities/types";
+import { OrderProductStore } from "../services/orderProduct";
 
 const store: OrderStore = new OrderStore();
 
@@ -38,14 +38,11 @@ const showAllOrders = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const orders: Order[] | null = await store.getAllOrders();
 		res.status(200).json(orders);
-	}
-
-	catch (error) {
+	} catch (error) {
 		res.status(400).json({
 			message: `unable to show all orders ${error}`
 		});
 	}
-
 };
 
 /**
@@ -60,13 +57,11 @@ const showSingleOrder = async (req: Request, res: Response): Promise<void> => {
 		const userId: number = parseInt(req.params.id);
 		const order: Order | null = await store.getOrderByUserId(userId);
 		res.status(200).json(order);
-	}
-	catch (error) {
+	} catch (error) {
 		res.status(400).json({
 			message: `cannot find the order ${error}`
 		});
 	}
-
 };
 
 /**
@@ -88,38 +83,16 @@ const showOrderByStatus = async (
 			status
 		);
 		res.status(200).json(order);
-	}
-	catch (error) {
+	} catch (error) {
 		res.status(400).json({
 			message: `unable to find the status for this order ${error}`
 		});
 	}
 };
 
-/**
- * delete all orders from the order db
- * @async
- * @function deleteUsers
- * @type {req: Request, res: Response}
- * @returns {Promise<void>}
- */
-const deleteOrders = async (req: Request, res: Response): Promise<void> => {
-	try {
-		const order: [] = await store.deleteOrders();
-		res.status(200).send("success");
-	}
-	catch (error) {
-		res.status(400).json({
-			message: `unable to delete all orders ${error}`
-		});
-	}
-
-};
-
 export {
 	showAllOrders,
 	showSingleOrder,
 	showOrderByStatus,
-	createOrder,
-	deleteOrders
+	createOrder
 };
