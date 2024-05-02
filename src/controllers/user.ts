@@ -1,19 +1,21 @@
 import { UserStore } from "../models/user";
 import { Request, Response } from "express";
-import { User } from "../utilities/types";
+import { User } from "../dataTypes/user";
 import bcrypt from "bcrypt";
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 dotenv.config();
 import { PEPPER, SALT_ROUNDS, TOKEN_SECRET } from "../config";
 import { AuthenticateStore } from "../services/authentication";
+import { Order } from "../dataTypes/order";
+import { OrderProduct } from "../dataTypes/orderProduct";
 
 const store: UserStore = new UserStore();
 const authStore: AuthenticateStore = new AuthenticateStore();
 
 /**
  * creates a user from the req.body object. A status code of 200, and the newly created user will be sent to the client if the creation was successful
- *                                          - or a status code of 400 if not successful
+ *   - or a status code of 400 if not successful
  * @async
  * @function createUser
  * @type {req: Request, res: Response}

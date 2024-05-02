@@ -1,5 +1,5 @@
 import Client from "../database";
-import { Order } from "../utilities/types";
+import { Order } from "../dataTypes/order";
 
 /**
  *  A OrderStore class which contains methods relating to order schema

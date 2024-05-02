@@ -1,5 +1,5 @@
 import Client from "../database";
-import { User } from "../utilities/types";
+import { User } from "../dataTypes/user";
 
 /**
  *  A UserStore class which contains methods relating to the user schema
@@ -48,6 +48,27 @@ export class UserStore {
 	}
 
 	/**
+	 * Gets a single user from the User db using their Auth0 user ID
+	 * @async
+	 * @function getUserByAuth0Id
+	 * @param {number} auth0_id - the auth0_id of a user
+	 * @returns {Promise<User | null>} - Returns a single user from the database or null if the user does not exist
+	 */
+	async getUserByAuth0Id(auth0_id: string): Promise<User | null> {
+		try {
+			const connection = await Client.connect();
+			const sql = "SELECT * FROM users WHERE auth0_user_id=($1)";
+			const result = await connection.query(sql, [auth0_id]);
+			connection.release();
+			if (result.rows.length > 0) return result.rows[0];
+
+			return null;
+		} catch (error) {
+			throw new Error(`Could not show the user: ${error}`);
+		}
+	}
+
+	/**
 	 * Creates user in the User db
 	 * @async
 	 * @function createUser
@@ -58,8 +79,9 @@ export class UserStore {
 		try {
 			const connection = await Client.connect();
 			const sql =
-				"INSERT INTO users (firstname, lastname, email, password, role, created_at, modified_at) VALUES($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *";
+				"INSERT INTO users (auth0_user_id, firstname, lastname, email, password, role, created_at, modified_at) VALUES($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *";
 			const result = await connection.query(sql, [
+				user.auth0_user_id,
 				user.firstname,
 				user.lastname,
 				user.email,

@@ -1,5 +1,5 @@
 import Client from "../database";
-import { User } from "../utilities/types";
+import { User } from "../dataTypes/user";
 import { NextFunction, Request, Response } from "express";
 
 /**

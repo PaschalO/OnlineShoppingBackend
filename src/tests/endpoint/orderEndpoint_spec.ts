@@ -1,5 +1,8 @@
 import app from "../../index";
-import { Order, OrderProduct, Product, User } from "../../utilities/types";
+import { User } from "../../dataTypes/user";
+import { Product } from "../../dataTypes/product";
+import { OrderProduct } from "../../dataTypes/orderProduct";
+import { Order } from "../../dataTypes/order";
 import { usersData } from "../../Data/userData";
 import { TOKEN_SECRET } from "../../config";
 import { productsData } from "../../Data/productData";

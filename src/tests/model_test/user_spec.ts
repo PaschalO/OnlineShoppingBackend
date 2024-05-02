@@ -1,4 +1,4 @@
-import { User } from "../../utilities/types";
+import { User } from "../../dataTypes/user";
 import { UserStore } from "../../models/user";
 import { usersData } from "../../Data/userData";
 

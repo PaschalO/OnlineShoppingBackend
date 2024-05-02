@@ -1,4 +1,4 @@
-import { User } from "../utilities/types";
+import { User } from "../dataTypes/user";
 import Client from "../database";
 import bcrypt from "bcrypt";
 import { PEPPER, TOKEN_SECRET } from "../config";

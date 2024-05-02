@@ -1,6 +1,6 @@
 import { OrderStore } from "../models/order";
 import { Request, Response } from "express";
-import { Order } from "../utilities/types";
+import { Order } from "../dataTypes/order";
 
 const store: OrderStore = new OrderStore();
 

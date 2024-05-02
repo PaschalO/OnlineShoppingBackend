@@ -1,4 +1,6 @@
-import { Order, OrderProduct, Product, User } from "../../utilities/types";
+import { Product } from "../../dataTypes/product";
+import { OrderProduct } from "../../dataTypes/orderProduct";
+import { Order } from "../../dataTypes/order";
 import { OrderStore } from "../../models/order";
 import { usersData } from "../../Data/userData";
 import { productsData } from "../../Data/productData";

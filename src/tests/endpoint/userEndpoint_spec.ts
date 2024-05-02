@@ -1,5 +1,5 @@
 import app from "../../index";
-import { User } from "../../utilities/types";
+import { User } from "../../dataTypes/user";
 import { usersData } from "../../Data/userData";
 import { TOKEN_SECRET } from "../../config";
 const request = require("supertest");

@@ -18,7 +18,8 @@ import {
 	showAllProducts,
 	showProductsByCategory,
 	showSingleProduct,
-	showTopFivePopularProducts
+	showTopFivePopularProducts,
+	editProduct
 } from "../controllers/product";
 
 import {
@@ -29,35 +30,104 @@ import {
 } from "../controllers/order";
 
 import { authenticate } from "../services/authentication";
-import { verifyAuthToken } from "../services/verfiyToken";
+import { verifyToken } from "../services/verfiyToken";
+import { productPermission } from "../Enum/user-permission.enum";
 import { admin } from "../services/admin";
 import { addProduct } from "../services/orderProduct";
+import {
+	auth0ValidateToken,
+	auth0VerifyPermissions
+} from "../middlewares/validateTokenWithAuth0";
+import { assignRolesToUser } from "../Auth0/assignRoles";
+import { validatePurchase } from "../services/validatePurchase";
 
 const routes = (app: express.Application): void => {
 	// routes for order
-	app.get("/orders", verifyAuthToken, admin, showAllOrders); // admin privileges
-	app.get("/orders/:id", verifyAuthToken, showSingleOrder);
-	app.get("/orders/users/:id/:status", verifyAuthToken, showOrderByStatus);
-	app.post("/orders", verifyAuthToken, admin, createOrder); // admin privileges
-	app.post("/orders/quantity", verifyAuthToken, addProduct);
+	app.get(
+		"/orders",
+		auth0ValidateToken,
+		auth0VerifyPermissions([
+			productPermission.updatePermission,
+			productPermission.readPermission,
+			productPermission.deletePermission,
+			productPermission.createPermission
+		]),
+		showAllOrders
+	); // admin privileges
+	app.get(
+		"/orders/:id",
+		auth0ValidateToken,
+		auth0VerifyPermissions([
+			productPermission.updatePermission,
+			productPermission.readPermission,
+			productPermission.deletePermission,
+			productPermission.createPermission
+		]),
+		showSingleOrder
+	);
+	app.get("/orders/users/:id/:status", verifyToken, showOrderByStatus);
+	app.post(
+		"/orders",
+		auth0ValidateToken,
+		auth0VerifyPermissions([productPermission.readPermission]),
+		createOrder
+	); // admin privileges
+	app.post(
+		"/orders/quantity",
+		auth0ValidateToken,
+		auth0VerifyPermissions([
+			productPermission.updatePermission,
+			productPermission.readPermission,
+			productPermission.deletePermission,
+			productPermission.createPermission
+		]),
+		addProduct
+	);
 
 	//routes for products
-	app.post("/products", verifyAuthToken, createProduct);
+	app.post("/products", createProduct);
 	app.get("/products", showAllProducts);
-	app.get("/products/:id", showSingleProduct);
+	app.get("/products/:id", auth0ValidateToken, showSingleProduct);
 	app.get("/products/category/:category", showProductsByCategory);
 	app.get(
 		"/products/product/top-five-popular-products",
 		showTopFivePopularProducts
 	);
-	app.delete("/products/:id", verifyAuthToken, admin, removeProduct); // admin privileges
+	app.put(
+		"/products",
+		auth0ValidateToken,
+		auth0VerifyPermissions(productPermission.updatePermission),
+		editProduct
+	);
+	// admin privileges
+	app.delete(
+		"/products/:id",
+		auth0ValidateToken,
+		auth0VerifyPermissions([
+			productPermission.updatePermission,
+			productPermission.readPermission,
+			productPermission.deletePermission,
+			productPermission.createPermission
+		]),
+		removeProduct
+	); // admin privileges
 
 	//routers for users
 	app.post("/users", createUser); // debatable - need to check if this is necessary
-	app.get("/users", verifyAuthToken, admin, showAllUsers); //admin privileges
-	app.get("/users/:id", verifyAuthToken, showSingleUser);
-	app.delete("/users/:id", verifyAuthToken, admin, deleteUser); // admin privileges
+	app.get("/users", verifyToken, admin, showAllUsers); //admin privileges
+	app.get("/users/:id", verifyToken, showSingleUser);
+	app.delete("/users/:id", verifyToken, admin, deleteUser); // admin privileges
 	app.post("/auth/users", authenticate);
+
+	app.post("/auth/assign-roles", assignRolesToUser);
+
+	// validate user purchase
+	app.post(
+		"/checkout/verify-purchase",
+		auth0ValidateToken,
+		auth0VerifyPermissions([productPermission.readPermission]),
+		validatePurchase
+	);
 };
 
 export default routes;

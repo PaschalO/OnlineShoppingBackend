@@ -1,6 +1,6 @@
 import Client from "../database";
 import { Request, Response } from "express";
-import { OrderProduct } from "../utilities/types";
+import { OrderProduct } from "../dataTypes/orderProduct";
 
 /**
  *  A OrderProductStore class which contains methods relating to order_product schema

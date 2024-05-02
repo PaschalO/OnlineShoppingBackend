@@ -1,33 +1,53 @@
 import { Request, Response } from "express";
-import { Product } from "../utilities/types";
+import { Product } from "../dataTypes/product";
 import { ProductStore } from "../models/product";
 
 const store: ProductStore = new ProductStore();
 
 /**
- * creates a product from the req.body object. A status code of 200, and the newly created product will be sent to the client
- *             if the creation was successful or a status code of 400 if not successful
+ * creates an array of products or single product from the req.body object. A status code of 200, and the newly created
+ * product will be sent to the client if the creation was successful or a status code of 400 if not successful
  * @async
  * @function createProduct
  * @type {req: Request, res: Response}
  * @returns {Promise<void>}
  */
 const createProduct = async (req: Request, res: Response): Promise<void> => {
-	try {
-		const product: Product = {
-			name: req.body.name,
-			price: req.body.price,
-			category: req.body.category.toLowerCase(),
-			description: req.body.description,
-			image: req.body.image,
-			in_stock: req.body.in_stock
-		};
+	const handleSingleProduct = async (
+		productData: Product
+	): Promise<Product | null> => {
+		try {
+			return await store.createProduct({
+				name: productData.name,
+				price: productData.price,
+				category: productData.category,
+				description: productData.description,
+				image: productData.image,
+				in_stock: productData.in_stock
+			});
+		} catch (error) {
+			throw new Error(`unable to create product: ${error}`);
+		}
+	};
 
-		const newProduct: Product | null = await store.createProduct(product);
-		res.status(200).json(newProduct);
+	try {
+		// Check if the request body is an array
+		if (Array.isArray(req.body)) {
+			// Process each product in the array
+			await Promise.all(req.body.map(handleSingleProduct));
+			res.status(200).json({
+				message: "Products have been added successfully"
+			});
+		} else {
+			// Handle a single product
+			await handleSingleProduct(req.body);
+			res.status(200).json({
+				message: "Product has been added successfully"
+			});
+		}
 	} catch (error) {
 		res.status(400).json({
-			message: `unable to create a product: ${error}`
+			message: `Error processing request: ${error}`
 		});
 	}
 };
@@ -135,11 +155,33 @@ const removeProduct = async (req: Request, res: Response): Promise<void> => {
 	}
 };
 
+const editProduct = async (req: Request, res: Response): Promise<void> => {
+	try {
+		console.log(req.body, "from the editProduct");
+		const { id, name, price, description, category, image, in_stock } =
+			req.body;
+		const productDetails = await store.updateProduct(id, {
+			name,
+			price,
+			category,
+			description,
+			image,
+			in_stock
+		});
+		res.status(201).json({ productDetails, message: "success" });
+	} catch (error) {
+		res.status(400).json({
+			message: `unable to delete the product ${error}`
+		});
+	}
+};
+
 export {
 	showAllProducts,
 	showSingleProduct,
 	showProductsByCategory,
 	showTopFivePopularProducts,
 	removeProduct,
-	createProduct
+	createProduct,
+	editProduct
 };

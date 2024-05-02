@@ -1,4 +1,4 @@
-import { Product } from "../utilities/types";
+import { Product } from "../dataTypes/product";
 
 /*
  * Mock data to be used for Product model test & endpoint tests

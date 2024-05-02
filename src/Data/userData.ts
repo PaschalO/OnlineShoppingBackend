@@ -1,4 +1,4 @@
-import { User } from "../utilities/types";
+import { User } from "../dataTypes/user";
 
 /*
  * Mock data to be used for User model test & endpoint tests

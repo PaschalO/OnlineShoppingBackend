@@ -8,3 +8,4 @@ CREATE TABLE IF NOT EXISTS orders (
       created_at TIMESTAMP,
       modified_at TIMESTAMP
 );
+

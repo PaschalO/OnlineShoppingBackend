@@ -1,5 +1,5 @@
 import Client from "../database";
-import { Product } from "../utilities/types";
+import { Product } from "../dataTypes/product";
 
 /**
  *  A ProductStore class which contains methods relating to the product schema
@@ -168,6 +168,31 @@ export class ProductStore {
 		} catch (error) {
 			throw new Error(
 				`Could not create product ${product}: Error - ${error}`
+			);
+		}
+	}
+
+	async updateProduct(id: number, product: Product): Promise<Product | null> {
+		try {
+			const connection = await Client.connect();
+			const sql =
+				"UPDATE products SET name=$1, price=$2, description=$3, category=$4, image=$5, in_stock=$6, modified_at=NOW() WHERE id=$7 RETURNING*";
+			const result = await connection.query(sql, [
+				product.name,
+				product.price,
+				product.description,
+				product.category,
+				product.image,
+				product.in_stock,
+				id
+			]);
+			connection.release();
+			if (result.rows.length > 0) return result.rows[0];
+
+			return null;
+		} catch (error) {
+			throw new Error(
+				`Could not update product ${product}: Error - ${error}`
 			);
 		}
 	}

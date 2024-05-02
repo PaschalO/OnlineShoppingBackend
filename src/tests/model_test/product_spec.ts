@@ -1,4 +1,4 @@
-import { Product } from "../../utilities/types";
+import { Product } from "../../dataTypes/product";
 import { ProductStore } from "../../models/product";
 import { productsData } from "../../Data/productData";
 import { usersData } from "../../Data/userData";

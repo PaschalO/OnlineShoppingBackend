@@ -6,12 +6,12 @@ const jwt = require("jsonwebtoken");
 /**
  * Verifies the user token to make sure they are authorized to the appropriate page
  * @async
- * @function verifyAuthToken
+ * @function verifyToken
  * @type {res: Request, res: Response}
  * @returns {Promise<void>}
  */
 
-const verifyAuthToken = async (
+const verifyToken = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -31,4 +31,4 @@ const verifyAuthToken = async (
 	}
 };
 
-export { verifyAuthToken };
+export { verifyToken };
