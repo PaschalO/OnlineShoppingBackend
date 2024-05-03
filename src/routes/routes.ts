@@ -41,6 +41,12 @@ import {
 import { assignRolesToUser } from "../Auth0/assignRoles";
 import { validatePurchase } from "../services/validatePurchase";
 
+/**
+ * Sets up the routes for the application.
+ *
+ * @param {express.Application} app - The Express application instance.
+ * @returns {void}
+ */
 const routes = (app: express.Application): void => {
 	// routes for order
 	app.get(
