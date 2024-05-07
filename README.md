@@ -19,6 +19,7 @@ The project was developed with the following technologies below:
 - Cors from npm
 - Prettier from npm
 - Eslint from npm
+- Auth0 from npm, solution for authentication and authorization processes.
 
 ## DEVELOPMENT SETUP
 - Clone the project

@@ -16,7 +16,7 @@
     "jasmine": "jasmine",
     "testJB": "npm run build && npm run jasmine"
   },
-  "author": "Udacity",
+  "author": "Paschal Oduoza",
   "license": "ISC",
   "dependencies": {
     "auth0": "^4.3.1",
