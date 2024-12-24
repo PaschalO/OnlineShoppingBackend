@@ -35,7 +35,7 @@ jobs:
           name: Backend Build
           command: npm run build
       - persist_to_workspace:
-          root: .
+          root: ./
           paths:
             - .  # Persist the entire project directory or specific folders/files
 
@@ -43,7 +43,7 @@ jobs:
     executor: python-executor
     steps:
       - attach_workspace:
-          at: /workspace  # Attach the workspace at a specific directory
+          at: ~/workspace  # Attach the workspace at a specific directory
       - run:
           name: Debug Workspace
           command: |
