@@ -48,7 +48,7 @@ jobs:
           name: Debug Workspace
           command: |
             echo "Workspace Contents:"
-            ls -la /workspace  # List all files to confirm they are accessible
+            ls -la ~/workspace  # List all files to confirm they are accessible
       - run:
           name: Install EB CLI
           command: |
