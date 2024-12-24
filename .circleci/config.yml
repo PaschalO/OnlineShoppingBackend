@@ -37,13 +37,18 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - .  # Persist the entire project directory (or specific paths like your `build/` directory)
+            - .  # Persist the entire project directory or specific folders/files
 
   deploy:
     executor: python-executor
     steps:
       - attach_workspace:
           at: /workspace  # Attach the workspace at a specific directory
+      - run:
+          name: Debug Workspace
+          command: |
+            echo "Workspace Contents:"
+            ls -la /workspace  # List all files to confirm they are accessible
       - run:
           name: Install EB CLI
           command: |
@@ -52,7 +57,9 @@ jobs:
       - run:
           name: Execute custom deployment script
           command: |
-           eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023" && deploy --staged
+           cd /workspace
+           eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023"
+           eb deploy --staged
 
 workflows:
   build-and-test:
