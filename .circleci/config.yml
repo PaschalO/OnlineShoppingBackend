@@ -8,10 +8,10 @@ jobs:
     executor:
       name: node/default
     # instead of hardcoding the node.js version in multiple places, use a variable
-    parameters:
-      node-version:
-        type: string
-        default: '18.16.1'
+#    parameters:
+#      node-version:
+#        type: string
+#        default: '18.16.1'
     steps:
       - checkout
       # caching node_modules to avoid re-installing dependencies on every build
@@ -19,9 +19,11 @@ jobs:
           keys:
             - node-modules-{{ checksum "package-lock.json" }}
             - node-modules-
-      - node/install:
-          # node-version variable here for consistency
-          node-version: << parameters.node-version >>
+      - node/install-packages:
+          pkg-manager: npm
+#      - node/install:
+#          # node-version variable here for consistency
+#          node-version: << parameters.node-version >>
       - save_cache:
           paths:
             - ~/.npm
