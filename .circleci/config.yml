@@ -34,11 +34,16 @@ jobs:
       - run:
           name: Backend Build
           command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .  # Persist the entire project directory (or specific paths like your `build/` directory)
 
   deploy:
     executor: python-executor
     steps:
-      - checkout
+      - attach_workspace:
+          at: /workspace  # Attach the workspace at a specific directory
       - run:
           name: Install EB CLI
           command: |
@@ -47,9 +52,7 @@ jobs:
       - run:
           name: Execute custom deployment script
           command: |
-           eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023"
-           eb create --sample --single --instance-types t2.small
-           eb deploy --staged
+           eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023" && deploy --staged
 
 workflows:
   build-and-test:
