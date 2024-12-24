@@ -43,6 +43,9 @@ workflows:
   build-and-test:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
       - aws-elastic-beanstalk/deploy:
           name: Deploy to Elastic Beanstalk
           application-name: OnlineShopping
