@@ -34,15 +34,15 @@ jobs:
     executor:
       name: node/default
     steps:
+      - run:
+          name: Execute custom deployment script
+          command: npm run deploy
       - aws-elastic-beanstalk/deploy:
           name: Deploy to Elastic Beanstalk
           application-name: OnlineShopping
           environment-name: OnlineShopping-dev
           region: ca-central-1
           version-label: "build-${CIRCLE_BUILD_NUM}"
-      - run:
-          name: Execute custom deployment script
-          command: npm run deploy
 
 workflows:
   build-and-test:
