@@ -50,7 +50,6 @@ jobs:
             eb init OnlineShopping \
               --region ca-central-1 \
               --platform "Node.js 20 running on 64bit Amazon Linux 2023" \
-              --interactive false && \
             eb deploy --staged
 
 
