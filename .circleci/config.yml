@@ -1,43 +1,36 @@
-# This config was automatically generated from your source code
-# Stacks detected: cicd:github-actions:.github/workflows,deps:node:.
 version: 2.1
 
 orbs:
-  node: circleci/node@5
-
-executors:
-  node-executor:
-    docker:
-      - image: cimg/node:18.16.1
+  node: circleci/node@7.0.0
 
 jobs:
   build:
-    executor: node-executor
+    executor:
+      name: node/default
+    # instead of hardcoding the node.js version in multiple places, use a variable
+    parameters:
+      node-version:
+        type: string
+        default: '18.16.1'
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Install backend dependencies
-          command: npm install
+      # caching node_modules to avoid re-installing dependencies on every build
+      - restore_cache:
+          keys:
+            - node-modules-{{ checksum "package-lock.json" }}
+            - node-modules-
+      - node/install:
+          # node-version variable here for consistency
+          node-version: << parameters.node-version >>
+      - save_cache:
+          paths:
+            - ~/.npm
+          key: node-modules-{{ checksum "package-lock.json" }}
       - run:
           name: Backend build
           command: npm run build
-
-  # Example deploy job (commented out by default)
-  deploy:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run:
-          name: Deploy
-          command: npm run deploy
 
 workflows:
   build-and-test:
     jobs:
       - build
-      # Uncomment the deploy job if needed
-      # - deploy:
-      #     requires:
-      #       - build
