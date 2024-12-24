@@ -46,18 +46,18 @@ jobs:
             eb --version
       - run:
           name: Execute custom deployment script
-          command: eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023" && eb deploy
+          command: eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023" && eb deploy --staged
 
 workflows:
   build-and-test:
     jobs:
       - build
+#      - aws-elastic-beanstalk/deploy:
+#          name: Deploy to Elastic Beanstalk
+#          application-name: OnlineShopping
+#          environment-name: OnlineShopping-dev
+#          requires:
+#            - build
       - deploy:
           requires:
             - build
-      - aws-elastic-beanstalk/deploy:
-          name: Deploy to Elastic Beanstalk
-          application-name: OnlineShopping
-          environment-name: OnlineShopping-dev
-          requires:
-            - deploy
