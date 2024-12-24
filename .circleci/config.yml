@@ -50,7 +50,5 @@ workflows:
           name: Deploy to Elastic Beanstalk
           application-name: OnlineShopping
           environment-name: OnlineShopping-dev
-          region: ca-central-1
-          version-label: "build-${CIRCLE_BUILD_NUM}"
           requires:
             - deploy
