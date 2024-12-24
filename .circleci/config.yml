@@ -7,7 +7,7 @@ orbs:
 executors:
   python-executor:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
 
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
             eb --version
       - run:
           name: Execute custom deployment script
-          command: eb init && deploy --staged
+          command: eb init && --region ca-central-1 && --platform "Node.js 20 running on 64bit Amazon Linux 2023" && --interactive=false && deploy --staged
 
 workflows:
   build-and-test:
