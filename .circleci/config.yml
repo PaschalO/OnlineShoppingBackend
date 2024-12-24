@@ -3,12 +3,11 @@ version: 2.1
 orbs:
   node: circleci/node@7.0.0
   aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@2.0.1
-  python: circleci/python@3.0.0
 
-#executors:
-#  python-executor:
-#    docker:
-#      - image: cimg/python:3.8
+executors:
+  python-executor:
+    docker:
+      - image: cimg/python:3.8
 
 jobs:
   build:
@@ -35,6 +34,11 @@ jobs:
       - run:
           name: Backend Build
           command: npm run build
+
+  deploy:
+    executor: python-executor
+    steps:
+      - checkout
       - run:
           name: Install EB CLI
           command: |
@@ -42,21 +46,10 @@ jobs:
             eb --version
       - run:
           name: Execute custom deployment script
-          command: eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023" && deploy --staged
-
-
-#  deploy:
-#    executor: python-executor
-#    steps:
-#      - checkout
-#      - run:
-#          name: Install EB CLI
-#          command: |
-#            pip install awsebcli --upgrade
-#            eb --version
-#      - run:
-#          name: Execute custom deployment script
-#          command: eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023" && deploy --staged
+          command: |
+           eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023"
+           eb create --sample --single --instance-types t2.small
+           eb deploy --staged
 
 workflows:
   build-and-test:
@@ -68,6 +61,6 @@ workflows:
 #          environment-name: OnlineShopping-dev
 #          requires:
 #            - build
-#      - deploy:
-#          requires:
-#            - build
+      - deploy:
+          requires:
+            - build
