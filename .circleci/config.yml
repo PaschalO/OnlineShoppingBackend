@@ -24,19 +24,20 @@ jobs:
           name: Backend build
           command: npm run build
 
-#  deploy:
-#    # This is an example deploy job, not actually used by the workflow
-#    docker:
-#      - image: cimg/base:stable
-#    steps:
-#      # Replace this with steps to deploy to users
-#      - run:
-#          name: deploy
-#          command: npm run deploy
+  # Example deploy job (commented out by default)
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Deploy
+          command: npm run deploy
+
 workflows:
   build-and-test:
     jobs:
-      - build:
-      #- deploy:
-         #requires:
-           #- build-node
+      - build
+      # Uncomment the deploy job if needed
+      # - deploy:
+      #     requires:
+      #       - build
