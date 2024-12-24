@@ -33,6 +33,8 @@ jobs:
   deploy:
     executor:
       name: node/default
+      docker:
+        - image: circleci/python:3.8  # Python image with pip
     steps:
       - checkout
       - run:
