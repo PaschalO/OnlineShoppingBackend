@@ -4,13 +4,17 @@ orbs:
   node: circleci/node@7.0.0
   aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@2.0.1
 
+executors:
+  python-executor:
+    docker:
+      - image: circleci/python:3.8
+
 jobs:
   build:
     executor:
       name: node/default
     steps:
       - checkout
-      # caching node_modules to avoid re-installing dependencies on every build
       - restore_cache:
           keys:
             - node-modules-{{ checksum "package-lock.json" }}
@@ -18,7 +22,7 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          name: Run Eslint
+          name: Run ESLint
           command: npm run lint
       - run:
           name: Run Prettier
@@ -28,12 +32,11 @@ jobs:
             - ~/.npm
           key: node-modules-{{ checksum "package-lock.json" }}
       - run:
-          name: Backend build
+          name: Backend Build
           command: npm run build
+
   deploy:
-    executor:
-      docker:
-        - image: circleci/python:3.8  # Python image with pip
+    executor: python-executor
     steps:
       - checkout
       - run:
