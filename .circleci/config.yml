@@ -30,25 +30,12 @@ jobs:
       - run:
           name: Backend build
           command: npm run build
-  deploy:
-    executor:
-      name: node/default
-    steps:
-      - run:
-          name: Execute custom deployment script
-          command: npm run deploy
-
 
 workflows:
   build-and-test:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
       - aws-elastic-beanstalk/deploy:
           name: Deploy to Elastic Beanstalk
           application-name: OnlineShopping
           environment-name: OnlineShopping-dev
-          requires:
-            - deploy
