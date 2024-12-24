@@ -1,0 +1,17 @@
+branch-defaults:
+  master:
+    environment: OnlineShopping-dev
+global:
+  application_name: OnlineShopping
+  branch: null
+  default_ec2_keyname: AKIA47CRY3242ZCPWB4I
+  default_platform: Node.js 20 running on 64bit Amazon Linux 2023
+  default_region: ca-central-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: git
+  workspace_type: Application
