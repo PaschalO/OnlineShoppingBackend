@@ -1,28 +1,4 @@
-.*
-
-/README.md
-
-/REQUIREMENTS.md
-
-/tsconfig.json
-
-/CODEOWNERS
-
-/database.json
-
-/docker-compose.yml
-
-/file.txt
-
-/LICENSE.txt
-/node_modules/
-
-/spec/
-
-/src/
-
-/Testing/
-/migrations/
+*
 
 !/.ebextensions/
 
