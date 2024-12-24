@@ -3,11 +3,12 @@ version: 2.1
 orbs:
   node: circleci/node@7.0.0
   aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@2.0.1
+  python: circleci/python@3.0.0
 
-executors:
-  python-executor:
-    docker:
-      - image: cimg/python:3.8
+#executors:
+#  python-executor:
+#    docker:
+#      - image: cimg/python:3.8
 
 jobs:
   build:
