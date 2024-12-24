@@ -8,7 +8,7 @@ orbs:
 executors:
   node-executor:
     docker:
-      - image: circleci/node:18.16.1
+      - image: cimg/node:18.16.1
 
 jobs:
   build:
