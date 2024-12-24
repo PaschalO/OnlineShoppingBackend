@@ -3,8 +3,7 @@ import Client from "../database";
 import bcrypt from "bcrypt";
 import { PEPPER, TOKEN_SECRET } from "../config";
 import { Request, Response } from "express";
-const jwt = require("jsonwebtoken");
-
+const jwt = require("jsonwebtoken"); // eslint-disable-line
 /**
  *  An AuthenticateStore model which authenticates user(s)
  *  @class

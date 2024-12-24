@@ -7,11 +7,6 @@ jobs:
   build:
     executor:
       name: node/default
-    # instead of hardcoding the node.js version in multiple places, use a variable
-#    parameters:
-#      node-version:
-#        type: string
-#        default: '18.16.1'
     steps:
       - checkout
       # caching node_modules to avoid re-installing dependencies on every build
@@ -21,9 +16,12 @@ jobs:
             - node-modules-
       - node/install-packages:
           pkg-manager: npm
-#      - node/install:
-#          # node-version variable here for consistency
-#          node-version: << parameters.node-version >>
+      - run:
+          name: Run Eslint
+          command: npm run lint
+      - run:
+          name: Run Prettier
+          command: npm run prettier
       - save_cache:
           paths:
             - ~/.npm

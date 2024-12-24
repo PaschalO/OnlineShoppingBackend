@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { TOKEN_SECRET } from "../config";
 
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken"); // eslint-disable-line
 
 /**
  * Verifies the user token to make sure they are authorized to the appropriate page

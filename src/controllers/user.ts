@@ -2,13 +2,9 @@ import { UserStore } from "../models/user";
 import { Request, Response } from "express";
 import { User } from "../dataTypes/user";
 import bcrypt from "bcrypt";
-const dotenv = require("dotenv");
-const jwt = require("jsonwebtoken");
-dotenv.config();
 import { PEPPER, SALT_ROUNDS, TOKEN_SECRET } from "../config";
 import { AuthenticateStore } from "../services/authentication";
-import { Order } from "../dataTypes/order";
-import { OrderProduct } from "../dataTypes/orderProduct";
+const jwt = require("jsonwebtoken"); // eslint-disable-line
 
 const store: UserStore = new UserStore();
 const authStore: AuthenticateStore = new AuthenticateStore();
