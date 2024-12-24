@@ -57,8 +57,7 @@ jobs:
       - run:
           name: Execute custom deployment script
           command: |
-           eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023"
-           eb deploy --staged
+           eb init OnlineShopping -r ca-central-1 -p "Node.js 20 running on 64bit Amazon Linux 2023" & deploy --staged
 
 workflows:
   build-and-test:
