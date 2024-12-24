@@ -36,6 +36,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install EB CLI
+          command: |
+            pip install awsebcli --upgrade
+            eb --version
+      - run:
           name: Execute custom deployment script
           command: npm run deploy
 
