@@ -39,3 +39,5 @@ workflows:
           name: Deploy to Elastic Beanstalk
           application-name: OnlineShopping
           environment-name: OnlineShopping-dev
+          requires:
+            - build
