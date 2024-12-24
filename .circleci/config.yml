@@ -31,17 +31,11 @@ jobs:
       # Replace this with steps to deploy to users
       - run:
           name: deploy
-          command: '#e.g. ./deploy.sh'
-      - run:
-          name: found github actions config
-          command: ':'
+          command: npm run deploy
 workflows:
   build-and-test:
     jobs:
-      - test-node
       - build-node:
-          requires:
-            - test-node
-    # - deploy:
-    #     requires:
-    #       - build-node
+      - deploy:
+         requires:
+           - build-node
