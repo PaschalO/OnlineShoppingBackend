@@ -46,7 +46,7 @@ jobs:
             eb --version
       - run:
           name: Execute custom deployment script
-          command: eb deploy --staged
+          command: eb init && deploy --staged
 
 workflows:
   build-and-test:
