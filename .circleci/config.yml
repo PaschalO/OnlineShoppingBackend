@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@7.0.0
+  aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@2.0.1
 
 jobs:
   build:
@@ -29,8 +30,24 @@ jobs:
       - run:
           name: Backend build
           command: npm run build
+  deploy:
+    executor:
+      name: node/default
+    steps:
+      - aws-elastic-beanstalk/deploy:
+          name: Deploy to Elastic Beanstalk
+          application-name: OnlineShopping
+          environment-name: OnlineShopping-dev
+          region: ca-central-1
+          version-label: "build-${CIRCLE_BUILD_NUM}"
+      - run:
+          name: Execute custom deployment script
+          command: npm run deploy
 
 workflows:
   build-and-test:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
