@@ -64,12 +64,9 @@ workflows:
   build-and-test:
     jobs:
       - build
-#      - aws-elastic-beanstalk/deploy:
-#          name: Deploy to Elastic Beanstalk
-#          application-name: OnlineShopping
-#          environment-name: OnlineShopping-dev
-#          requires:
-#            - build
       - deploy:
           requires:
             - build
+          filters:
+            branches:
+              only: "master"
