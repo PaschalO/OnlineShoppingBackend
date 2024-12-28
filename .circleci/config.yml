@@ -24,10 +24,10 @@ jobs:
           pkg-manager: npm
       - run:
           name: Run ESLint
-          command: npm run lint
+          command:  npm run eslint "$(circleci tests glob 'src/**/*.js' | circleci tests split --split-by=filesize)"
       - run:
           name: Run Prettier
-          command: npm run prettier
+          command: npm run eslint "$(circleci tests glob 'src/**/*.js' | circleci tests split --split-by=filesize)"
       - save_cache:
           paths:
             - ~/.npm
