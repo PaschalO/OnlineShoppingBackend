@@ -10,7 +10,7 @@ executors:
       - image: cimg/python:3.8
 
 jobs:
-  build:
+  lint:
     executor:
       name: node/default
     steps:
@@ -27,6 +27,21 @@ jobs:
       - run:
           name: Run Prettier
           command: npm run prettier
+      - save_cache:
+          paths:
+            - ~/.npm
+          key: node-modules-{{ checksum "package-lock.json" }}
+  build:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - node-modules-{{ checksum "package-lock.json" }}
+            - node-modules-
+      - node/install-packages:
+          pkg-manager: npm
       - save_cache:
           paths:
             - ~/.npm
@@ -63,7 +78,11 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - build
+      - lint:
+          parallelism: 2
+      - build:
+          requires:
+            - lint
       - deploy:
           requires:
             - build
