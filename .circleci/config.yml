@@ -13,6 +13,7 @@ jobs:
   lint:
     executor:
       name: node/default
+    parallelism: 2
     steps:
       - checkout
       - restore_cache:
@@ -78,8 +79,7 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - lint:
-          parallelism: 2
+      - lint
       - build:
           requires:
             - lint
